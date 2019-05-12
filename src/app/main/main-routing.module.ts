@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {UserSessionGuard} from '../lazy/users/user-session.guard';
 import {DocumentsResolver} from '../shared/resolvers/documents-resolver';
 import {LabelsResolver} from '../shared/resolvers/labels-resolver';
 import {OutletMainComponent} from './outlet-main/outlet-main.component';
@@ -10,8 +9,6 @@ const routes: Routes = [
     {
         path: '',
         component: OutletMainComponent,
-        canActivate: [UserSessionGuard],
-        canActivateChild: [UserSessionGuard],
         resolve: {
             documents: DocumentsResolver,
             labels: LabelsResolver
@@ -28,9 +25,6 @@ const routes: Routes = [
                 loadChildren: '../lazy/templates/templates.module#TemplatesModule'
             }
         ]
-    }, {
-        path: 'users',
-        loadChildren: '../lazy/users/users.module#UsersModule'
     }, {
         path: '**',
         component: RouteNotFoundComponent
