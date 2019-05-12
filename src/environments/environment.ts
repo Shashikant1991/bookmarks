@@ -6,7 +6,7 @@ export const environment = {
     production: false,
     debug: true,
     api: 'http://localhost:8765/',
-    brand: 'Tags'
+    brand: 'Reactgular'
 };
 
 /*
