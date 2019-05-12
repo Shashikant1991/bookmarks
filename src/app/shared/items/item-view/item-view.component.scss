@@ -1,0 +1,17 @@
+@import "../config";
+
+:host {
+    .tag-item-view {
+        display: flex;
+        align-items: baseline;
+        flex-grow: 1;
+        min-width: 0;
+        padding: map-get($spacers, 1) map-get($spacers, 3);
+
+        .link-error, .link-error img {
+            display: inline-block;
+            width: $_18px;
+            height: $_18px;
+        }
+    }
+}

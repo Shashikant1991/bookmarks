@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Tags</title>
+    <base href="/">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="favicon.ico" rel="icon" type="image/x-icon">
+    <style type="text/css">
+        @keyframes sideToside {
+            0%, 100% {
+                transform: translateX(-50%);
+            }
+            50% {
+                transform: translateX(150%);
+            }
+        }
+
+        #bootstrap {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            height: 128px;
+            width: 128px;
+            transform: translate(-64px, -96px);
+            opacity: 1;
+            margin-top: 0;
+            transition: opacity 250ms ease-in-out,
+            margin-top 250ms ease-in-out;
+        }
+
+        #bootstrap.removing {
+            opacity: 0;
+            margin-top: -32px;
+        }
+
+        #bootstrap img {
+            margin: 0 25%;
+        }
+
+        #bootstrap .loading {
+            position: fixed;
+            height: 4px;
+            margin-top: 32px;
+            width: 128px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            overflow: hidden;
+        }
+
+        #bootstrap .loading-bar {
+            position: absolute;
+            animation: sideToside 2s ease-in-out infinite;
+            background-color: #AE2929;
+            height: 100%;
+            width: 50%;
+        }
+
+        html, body {
+            display: block;
+            position: relative;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            color: rgba(0, 0, 0, 0.8);
+            background-color: #F7F8F8;
+        }
+    </style>
+</head>
+<body>
+<tag-body></tag-body>
+<div id="bootstrap">
+    <img width="64" height="64"
+         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAVESURBVHja7JtPTBNZHMe//U/pVguF7R9tN7K7snXdBYWkxgiIiQQPJhq9GBNijBrxYIgXEw9GDybEixxsjJ44GLkYCPG2m4AEzfIn4Y+wFHCjQmFhpLaFWlpa2u4B+jrd1tLSTjtteac3b2Ze+/n0zfv93muG067TzQOQIjeLnQ9AjdwtUi4Aew4LsHOR42VHQK4L4Gfil95dWoriI0cg0WjAFQrhdbnw9eNHUG/fwjE7m70CxAoFfmlshOb0afDE4rDzbqsVM+3tMBoM8LpcMfXJadfpVjIhD1DX1aGyuRm8vLwtr11dWEDfjRtYnpraMgpkhAB1XR30LS0hbTajEV+GhrBmNkOsUqGoshLSkhJy3re+jj9PncLq/HxmCxArlajv6iLHTorC8N27oHp7w67Vnj2LigcPyLFjdhZ/1Ndndh5Qfu8eqbuWltB15kxEeACY7ehAz4UL5Fii1eKHc+cyNwzm79kDZXU1Of7r+nW4l5ej3mMZHYXx8WNyXHr1KrgCQWYKUJ88SepL/f2wGY0x3Tf19CmJAhKtFsV6PbvCoFAmg+LYMQikUnC4XPgBwO+Hb30dPrcbbpsNi69fQ7J3L7lnsbs75v79Xi+W+vqgPH4cAFBQVgbqzRt2CJBoNKhpa4OosPCb1/g8HnSWlYXO+pOT4AqFqGpthWNuDg6TCebBQSz19UXs4+unT6QuksnYMQIkGg1qX76EQBo96ASec+/aGmnjiUTweTwoLC9HYXn5RmNjI3ovXYJ5YCB8FPj97FoLxAoPAKKCgo0wNjMTTH91OvKY0IuqtjYyGG3i83m96RUQDzwAcHg8CKRS2CYmSJvswIGNWX5kJOTavKKiiH0IJBJSj5YWc9kGTwemp7IynQ4AMNDUBLfVGhRQXBw5gVKpgvnD58/pEbBdeK/LheXpafg8nmA402ggksuxZrFglJbtieTyiH18t29fMCM0mVIvYLvwAGAeHCS/Mn15G4jnC93d8LndZARwhcLQz9ZqIVYoAAAeux0r09OpFZAIPACsOxyk/mVoKNjudG7M8B4PmeUFu3aFPQbyQ4dI3To2BidFpS4MJgoPAPKKClL/+9EjgMOBk6JIMrRbpwNPJAqJGvRV3/dHjwZT4+Hh1G2IJAM+MKz3X7uG6WfP4LHbMXL/fsj5327fDsssgyGEA9WJE8EMsqcnNXlAsuAD5demJuy/cgVcPj9kaaxvaYH88OHQvIGWVapqa8HfDIFOioJ1fJz5EZBseCLh1i2UXLwI2/g4eGIxivV6cHi8cAhazP/58mVSN3V2Mr8nyBQ8fR8wMKN/E2LzswsOHgwZHR/a2phNhZmGj7XwN/cJf79zh7QtdHVFnf0TFsAWeABko9Tv85G2d83NscnLdHgAZIu8/+ZN/NjQAMvQEFbn5pgRwDZ4elmzWDDxv93jpD4CbIWnD/14CzcrfnmzmVkBbIb32O2Y6ehgTgDb4bvPn4dzcZEZAflqNevho631ExIglMlQ/fx5VsNHFfBTQwPESmVWw0cVkE/7UyJb4aMKML16lfXwUQVQvb2YNBiyGn7LKGA0GPBPa2vWwseUB4w9fJg2CUzDx5wJpkNCKuDjWgukUkKq4ONeDaZCQirh4xbAtIRUw29LAFMS0gG/bQHJlpAu+IQEJEtCOuETFpCohHTDJ0XAdiWwAT5pAuKVwBb4pAqIVQKb4JMuYCsJbINnREBAwuSTJyFtK+/fsw4eYPiFCUVVFZQ1NXCZzfjw4gU8KytgWbFnzBsjTAnYeW1uR8COgJx9/gFAygfwby5Pgv8NAFzrgXRargiLAAAAAElFTkSuQmCC">
+    <div class="loading">
+        <div class="loading-bar"></div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<ng-template #tempRef let-changes="changes" let-title="title">
+    <div class="change-list">
+        <hr class="separator">
+        <div class="m-1 font-weight-bold">{{title}}</div>
+        <div class="m-1 change-record"
+             *ngFor="let change of changes | async">
+            <div>{{change.type | uppercase}}: documents/{{change.document_id}}/{{change.model}}/{{change.id}}</div>
+            <pre>{{change.value | stringify:2}}</pre>
+        </div>
+    </div>
+</ng-template>
+<tag-side-bar-header>
+    <span class="font-weight-bold text-truncate">Debug Panel</span>
+</tag-side-bar-header>
+<ng-container *ngTemplateOutlet="tempRef;context:{changes:queued$,title:'Queued'}"></ng-container>
+<ng-container *ngTemplateOutlet="tempRef;context:{changes:sending$,title:'Sending'}"></ng-container>
+<ng-container *ngTemplateOutlet="tempRef;context:{changes:sent$,title:'Sent'}"></ng-container>

@@ -1,0 +1,81 @@
+<form (submit)="formGroup.valid && submit()"
+      [formGroup]="formGroup"
+      class="w-100">
+    <fieldset [disabled]="busy$ | async" class="d-flex flex-column">
+
+        <h3 class="mb-3">Create An Account</h3>
+
+        <p>
+            Fill out this form and we will send you an activate code to your e-mail address.
+        </p>
+
+        <mat-form-field class="mb-3 w-100">
+            <mat-label>Email</mat-label>
+            <input aria-label="Email"
+                   autocomplete="email"
+                   formControlName="email"
+                   matInput
+                   name="email"
+                   placeholder="Email"
+                   required
+                   type="email">
+            <fa-icon class="mr-3" icon="envelope" matPrefix></fa-icon>
+            <mat-error *ngIf="messages.email.hasErrors()">{{messages.email.getMessage()}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="mb-3 w-100">
+            <mat-label>Confirm Email</mat-label>
+            <input aria-label="Confirm Email"
+                   autocomplete="email"
+                   formControlName="confirm_email"
+                   matInput
+                   name="confirm_email"
+                   placeholder="Confirm Email"
+                   required
+                   type="email">
+            <fa-icon class="mr-3" icon="envelope" matPrefix></fa-icon>
+            <mat-error *ngIf="messages.confirm_email.hasErrors()">{{messages.confirm_email.getMessage()}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="mb-3 w-100">
+            <mat-label>Password</mat-label>
+            <input aria-label="Password"
+                   autocomplete="new-password"
+                   formControlName="password"
+                   matInput
+                   name="password"
+                   placeholder="Password"
+                   required
+                   type="password">
+            <fa-icon class="mr-3" icon="lock" matPrefix></fa-icon>
+            <tag-password-help (click)="!passwordPopover.isOpen() && passwordPopover.open()"
+                               (mouseenter)="passwordPopover.open()"
+                               (mouseleave)="passwordPopover.close()"
+                               *ngIf="(passwordStrength.suggestions | async)?.length"
+                               [satPopoverAnchorFor]="passwordPopover"
+                               matSuffix></tag-password-help>
+            <mat-error *ngIf="messages.password.hasErrors()">{{messages.password.getMessage()}}</mat-error>
+            <mat-hint *ngIf="formGroup.controls['password'].dirty"
+                      align="start">
+                <tag-password-hint [score]="passwordStrength.scope | async"></tag-password-hint>
+            </mat-hint>
+        </mat-form-field>
+
+        <div class="d-flex align-items-baseline">
+            <a class="mr-auto btn-padding" routerLink="/users/login">Back to sign in</a>
+            <button [disabled]="busy$ | async"
+                    class="text-uppercase w-50"
+                    color="accent"
+                    mat-flat-button
+                    type="submit">
+                Continue
+            </button>
+        </div>
+    </fieldset>
+</form>
+
+<sat-popover #passwordPopover
+             horizontalAlign="after">
+    <tag-password-suggestions [values]="passwordStrength.suggestions | async"></tag-password-suggestions>
+</sat-popover>

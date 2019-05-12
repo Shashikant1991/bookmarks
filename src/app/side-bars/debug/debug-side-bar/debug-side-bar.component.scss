@@ -1,0 +1,15 @@
+@import "../config";
+
+:host {
+    display: flex;
+    flex-direction: column;
+
+    .change-list {
+        min-height: 20rem;
+    }
+
+    .change-record {
+        font-size: 10px;
+        font-family: Consolas, Inconsolata, Monaco, "Courier New", monospace;
+    }
+}

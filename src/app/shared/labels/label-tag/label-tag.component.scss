@@ -1,0 +1,21 @@
+@import "../config";
+
+:host {
+    .tag-label {
+        display: flex;
+        text-transform: lowercase;
+        font-size: $_12px;
+        border-radius: $_12px;
+        margin-right: map-get($spacers, 1);
+        padding-left: map-get($spacers, 2);
+        padding-right: map-get($spacers, 2);
+        color: $gray-700;
+        cursor: pointer;
+
+        transition: color 200ms ease-in-out;
+
+        &:hover {
+            color: $gray-900;
+        }
+    }
+}

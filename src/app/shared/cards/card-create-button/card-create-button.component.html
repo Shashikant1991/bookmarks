@@ -1,0 +1,8 @@
+<button #button
+        (click)="create()"
+        [class.action-hide]="actionHide$ | async"
+        class="action-button"
+        color="accent"
+        mat-flat-button>
+    <tag-card-create-text *ngIf="!(actionHide$ | async)"></tag-card-create-text>
+</button>

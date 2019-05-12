@@ -1,0 +1,13 @@
+<div *ngIf="label$ | async as label"
+     class="pt-2 pb-2 pr-2 d-flex">
+    <div class="d-flex flex-wrap align-items-baseline">
+        <a class="txt mr-1" [routerLink]="['/labels/'+label.id]">{{label.title}}</a>
+    </div>
+<!--
+    <tag-reactive-more class="ml-auto tool-small reactive-tool-invert"
+                       [tools]="tools"></tag-reactive-more>
+-->
+</div>
+<tag-panel-accordion>
+    <tag-label-edit-form></tag-label-edit-form>
+</tag-panel-accordion>

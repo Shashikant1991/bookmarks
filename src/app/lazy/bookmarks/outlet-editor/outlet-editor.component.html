@@ -1,0 +1,14 @@
+<tag-feature-loader *ngIf="loader$ | async as state"
+                    [state]="state"
+                    (retry)="loadDocument()"></tag-feature-loader>
+<div *ngIf="(loader$ | async) === null"
+     class="document-view-content"
+     tagDragHover>
+    <tag-group *ngFor="let groupId of (document$ | async)?._group_ids"
+               [groupId]="groupId"
+               [tagDragTarget]="groupId"
+               dragType="group"></tag-group>
+    <tag-message-big-icon *ngIf="!(document$ | async)?._group_ids.length"
+                          icon="bookmark"
+                          message="Bookmarks you add will appear here"></tag-message-big-icon>
+</div>

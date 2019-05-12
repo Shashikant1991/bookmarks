@@ -1,0 +1,32 @@
+@import "../config";
+
+:host {
+    display: block;
+    width: 100%;
+    min-width: 0;
+
+    .txt {
+        display: block;
+        width: 100%;
+        min-width: 0;
+        cursor: pointer;
+        font-size: $_18px;
+        font-weight: bold;
+        color: $gray-800;
+
+        &.untitled {
+            color: $gray-600;
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        &:hover {
+            color: $gray-900;
+            text-decoration: underline;
+        }
+    }
+
+    .input-group-append {
+        cursor: pointer;
+    }
+}

@@ -1,0 +1,5 @@
+<div *ngIf="label$ | async as label"
+     class="tag-label"
+     [tagCardColor]="label.color">
+    {{label.title}}
+</div>

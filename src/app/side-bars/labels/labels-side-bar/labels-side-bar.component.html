@@ -1,0 +1,6 @@
+<tag-side-bar-header class="side-bar-invert">
+    <span class="font-weight-bold text-truncate">Labels</span>
+</tag-side-bar-header>
+<hr class="separator">
+<tag-label-edit *ngFor="let labelId of labelIds$ | async"
+                [labelId]="labelId"></tag-label-edit>

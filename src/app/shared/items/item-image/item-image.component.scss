@@ -1,0 +1,9 @@
+@import "../config";
+
+:host {
+    .img-placeholder, .img-placeholder img {
+        display: inline-block;
+        width: $_18px;
+        height: $_18px;
+    }
+}

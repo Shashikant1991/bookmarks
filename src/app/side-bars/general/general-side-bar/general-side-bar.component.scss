@@ -1,0 +1,23 @@
+@import "../config";
+
+:host {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+
+    .txt {
+        display: flex;
+        color: $white;
+        flex-grow: 1;
+        min-width: 0;
+    }
+
+    .logo {
+        display: flex;
+        background-image: url("/assets/img/app-icon-32.png");
+        background-size: $_24px $_24px;
+        width: $_24px;
+        height: $_24px;
+    }
+}

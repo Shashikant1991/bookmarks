@@ -1,0 +1,33 @@
+@import "../config";
+
+:host {
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100%;
+
+    .templates {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: map-get($spacers, 3);
+        grid-row-gap: map-get($spacers, 3);
+
+        @include media-breakpoint-up(md) {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        @include media-breakpoint-up(lg) {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    button {
+        height: 4rem;
+    }
+
+    .btn-blank {
+        width: 100%;
+        @include media-breakpoint-up(md) {
+            width: 25rem;
+        }
+    }
+}

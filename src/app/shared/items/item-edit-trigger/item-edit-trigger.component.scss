@@ -1,0 +1,10 @@
+@import "../config";
+
+:host {
+    display: flex;
+    flex-grow: 1;
+    min-width: 0;
+    align-items: baseline;
+    padding: map-get($spacers, 1) 0;
+    cursor: pointer;
+}

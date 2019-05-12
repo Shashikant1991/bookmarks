@@ -1,0 +1,47 @@
+@import "../config";
+
+tag-outlet-users {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    // centers all the children on the page.
+    .content {
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        flex-grow: 1;
+        align-items: center;
+        justify-content: center;
+
+        &:not(.is-handset) {
+            overflow: hidden;
+
+            .animation-slide {
+                display: flex;
+                position: relative;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .animation-outlet {
+                width: 20rem;
+            }
+        }
+
+        &.is-handset {
+            .animation-slide {
+                display: flex;
+                position: relative;
+                width: 100%;
+            }
+
+            .animation-outlet {
+                margin: map-get($spacers, 4);
+                width: 100%;
+            }
+        }
+    }
+}

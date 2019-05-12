@@ -1,0 +1,3 @@
+<tag-feature-loader *ngIf="loader$ | async as state"
+                    [state]="state"
+                    (retry)="loadDocuments()"></tag-feature-loader>

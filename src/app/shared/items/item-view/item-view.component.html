@@ -1,0 +1,11 @@
+<ng-container *ngIf="item$ | async as item">
+    <div *ngIf="item._visible !== false"
+         class="tag-item-view">
+        <a class="tag-item-title text-truncate"
+           [attr.href]="item.url">
+            <tag-item-image class="mr-2"
+                            [itemId]="itemId"></tag-item-image>
+            {{(showUrl$ | async) ? (item.url | shortenUrl) : (item.title || item.url | shortenUrl)}}
+        </a>
+    </div>
+</ng-container>

@@ -1,0 +1,13 @@
+@import "../config";
+
+:host {
+    display: flex;
+    align-items: center;
+    height: $top-bar-height;
+    min-width: 0;
+    margin-left: map-get($spacers, 3);
+}
+
+:host-context(.side-bar-invert) {
+    color: $white !important;
+}
