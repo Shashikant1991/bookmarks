@@ -5,7 +5,6 @@ import {LogService} from '../../shared/dev-tools/log/log.service';
 import {EntityChange, EntityChangeEnum} from '../../shared/networks/networks.types';
 import {EditorSetDocumentAction} from '../editor/editor-set-document.action';
 import {ChangesModel} from '../models/changes-model';
-import {UsersLogoutAction} from '../users/users-logout.action';
 import {ChangesCreateAction} from './changes-create.action';
 import {ChangesDeleteAction} from './changes-delete.action';
 import {ChangesFailureAction} from './changes-failure.action';
@@ -127,11 +126,6 @@ export class ChangesState {
         if (!document_id) {
             throw new Error('Document ID is not set');
         }
-    }
-
-    @Action(UsersLogoutAction)
-    public usersLogout(ctx: ChangesContext) {
-        ctx.setState(CHANGES_DEFAULT);
     }
 }
 

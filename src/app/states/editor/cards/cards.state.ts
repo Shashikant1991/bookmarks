@@ -7,7 +7,6 @@ import {EntityMap} from '../../../shared/networks/entities/entity-map';
 import {EntityIdType} from '../../../shared/networks/networks.types';
 import {AppSequenceAction} from '../../app/app-sequence.action';
 import {ChangesTracker} from '../../changes/changes-tracker';
-import {UsersLogoutAction} from '../../users/users-logout.action';
 import {DragVisibleAction} from '../drag/drag-visible.action';
 import {EditorSetDocumentAction} from '../editor-set-document.action';
 import {GroupsAddCardAction} from '../groups/groups-add-card.action';
@@ -202,11 +201,6 @@ export class CardsState {
     public editorDocumentAction(ctx: CardsContext, action: EditorSetDocumentAction) {
         const state = action.cards.reduce((current, card) => ({...current, [card.id]: card}), {});
         ctx.setState(state);
-    }
-
-    @Action(UsersLogoutAction)
-    public usersLogoutAction(ctx: CardsContext) {
-        ctx.setState({});
     }
 
     private _cloneAsPromise(itemId: EntityIdType, clone: boolean): Promise<EntityIdType> {

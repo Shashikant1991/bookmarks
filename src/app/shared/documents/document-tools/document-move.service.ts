@@ -3,8 +3,8 @@ import {Injectable} from '@angular/core';
 import {Store} from '@ngxs/store';
 import {combineLatest, Observable, of} from 'rxjs';
 import {first, map, withLatestFrom} from 'rxjs/operators';
+import {AppState} from '../../../states/app/app.state';
 import {DocumentsSortAction} from '../../../states/editor/documents/documents-sort.action';
-import {UsersState} from '../../../states/users/users.state';
 import {LogService} from '../../dev-tools/log/log.service';
 import {EntityIdType} from '../../networks/networks.types';
 import {ReactiveTool, ReactiveToolConfig, ReactiveToolDisabled} from '../../reactive-tools/reactive-tool';
@@ -27,8 +27,8 @@ export abstract class DocumentMoveService implements ReactiveTool, ReactiveToolD
                           protected readonly _context: DocumentContext,
                           protected readonly _direction: 'up' | 'down',
                           protected readonly _log: LogService) {
-        const document_ids$ = this._store.select(UsersState.documentIds);
-        const archived_ids$ = this._store.select(UsersState.archiveIds);
+        const document_ids$ = this._store.select(AppState.documentIds);
+        const archived_ids$ = this._store.select(AppState.archiveIds);
 
         this._document_id$ = _context.getDocumentId();
         this._archived$ = _context.getDocument().pipe(map(document => document.archived));

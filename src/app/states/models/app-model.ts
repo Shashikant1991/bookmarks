@@ -1,3 +1,5 @@
+import {EntityIdType} from '../../shared/networks/networks.types';
+
 export interface AppHtmlMeta {
     /**
      * Page description
@@ -10,6 +12,8 @@ export interface AppHtmlMeta {
 }
 
 export interface AppModel {
+    archive_ids: EntityIdType[];
+    document_ids: EntityIdType[];
     meta: AppHtmlMeta;
     networkRead: boolean;
     networkWrite: boolean;

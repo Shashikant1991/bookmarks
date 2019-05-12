@@ -5,7 +5,6 @@ import {DocumentEntity} from '../../../shared/networks/entities/document.entity'
 import {EntityMap} from '../../../shared/networks/entities/entity-map';
 import {EntityIdType} from '../../../shared/networks/networks.types';
 import {ChangesTracker} from '../../changes/changes-tracker';
-import {UsersLogoutAction} from '../../users/users-logout.action';
 import {EditorSetDocumentAction} from '../editor-set-document.action';
 import {EditorUnsetDocumentAction} from '../editor-unset-document.action';
 import {GroupsDeleteAction} from '../groups/groups-delete.action';
@@ -146,10 +145,5 @@ export class DocumentsState {
         if (actions.length) {
             return ctx.dispatch(actions);
         }
-    }
-
-    @Action(UsersLogoutAction)
-    public usersLogoutAction(ctx: DocumentContext) {
-        ctx.setState({});
     }
 }

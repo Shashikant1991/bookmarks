@@ -3,8 +3,8 @@ import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@ang
 import {Select, Store} from '@ngxs/store';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {first, switchMap} from 'rxjs/operators';
+import {AppState} from '../../../states/app/app.state';
 import {DocumentsSortAction} from '../../../states/editor/documents/documents-sort.action';
-import {UsersState} from '../../../states/users/users.state';
 import {LogService} from '../../dev-tools/log/log.service';
 import {EntityIdType} from '../../networks/networks.types';
 
@@ -21,7 +21,7 @@ import {EntityIdType} from '../../networks/networks.types';
 export class DocumentListComponent implements OnInit, OnDestroy {
     public readonly archived$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-    @Select(UsersState.documentIds)
+    @Select(AppState.documentIds)
     public documentIds$: Observable<EntityIdType[]>;
 
     public ids$: Observable<EntityIdType[]>;
@@ -59,8 +59,8 @@ export class DocumentListComponent implements OnInit, OnDestroy {
         this.ids$ = this.archived$.pipe(
             switchMap(archived => {
                 return archived
-                    ? this._store.select(UsersState.archiveIds)
-                    : this._store.select(UsersState.documentIds);
+                    ? this._store.select(AppState.archiveIds)
+                    : this._store.select(AppState.documentIds);
             })
         );
     }

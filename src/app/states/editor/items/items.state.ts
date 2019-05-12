@@ -6,7 +6,6 @@ import {EntityMap} from '../../../shared/networks/entities/entity-map';
 import {ItemEntity} from '../../../shared/networks/entities/item.entity';
 import {EntityIdType} from '../../../shared/networks/networks.types';
 import {ChangesTracker} from '../../changes/changes-tracker';
-import {UsersLogoutAction} from '../../users/users-logout.action';
 import {CardsAddItemAction} from '../cards/cards-add-item.action';
 import {CardsRemoveItemAction} from '../cards/cards-remove-item.action';
 import {DragVisibleAction} from '../drag/drag-visible.action';
@@ -130,10 +129,5 @@ export class ItemsState {
         if (actions.length) {
             return ctx.dispatch(actions);
         }
-    }
-
-    @Action(UsersLogoutAction)
-    public usersLogoutAction(ctx: ItemsContext) {
-        ctx.setState({});
     }
 }

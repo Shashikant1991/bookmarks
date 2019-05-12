@@ -8,7 +8,6 @@ import {GroupEntity} from '../../../shared/networks/entities/group.entity';
 import {EntityIdType} from '../../../shared/networks/networks.types';
 import {AppSequenceAction} from '../../app/app-sequence.action';
 import {ChangesTracker} from '../../changes/changes-tracker';
-import {UsersLogoutAction} from '../../users/users-logout.action';
 import {CardEditorPublishAction} from '../card-editor/card-editor-publish.action';
 import {CardsDeleteAction} from '../cards/cards-delete.action';
 import {CardsSortAction} from '../cards/cards-sort.action';
@@ -177,10 +176,5 @@ export class GroupsState {
         if (actions.length) {
             return ctx.dispatch(actions);
         }
-    }
-
-    @Action(UsersLogoutAction)
-    public usersLogoutAction(ctx: GroupsContext) {
-        ctx.setState({});
     }
 }

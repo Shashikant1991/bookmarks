@@ -2,12 +2,11 @@ import {HttpClient, HttpErrorResponse, HttpEvent, HttpHeaders} from '@angular/co
 import {Injectable, OnDestroy} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {Navigate} from '@ngxs/router-plugin';
-import {Actions, ofActionDispatched, Store} from '@ngxs/store';
+import {Store} from '@ngxs/store';
 import {Observable, of, Subject} from 'rxjs';
-import {catchError, first, takeUntil, timeout} from 'rxjs/operators';
+import {catchError, first, timeout} from 'rxjs/operators';
 import {TimeoutError} from 'rxjs/src/internal/util/TimeoutError';
 import {environment} from '../../../../environments/environment';
-import {UsersTokenAction} from '../../../states/users/users-token.action';
 import {LogService} from '../../dev-tools/log/log.service';
 import {ApiResponse} from '../api.types';
 
@@ -25,21 +24,9 @@ export class RestService implements OnDestroy {
     public constructor(private _store: Store,
                        private _httpClient: HttpClient,
                        private _snackBar: MatSnackBar,
-                       private _actions$: Actions,
                        log: LogService) {
         this._log = log.withPrefix(RestService.name);
         this._headers = new HttpHeaders({'Accept': 'application/json'});
-
-        this._actions$.pipe(
-            ofActionDispatched(UsersTokenAction),
-            takeUntil(this._destroyed$)
-        ).subscribe((action: UsersTokenAction) => {
-            if (action.user_id && action.session_id) {
-                this._headers = this._headers.set('Authorization', `app-token user=${action.user_id}, session=${action.session_id}`);
-            } else if (this._headers.has('Authorization')) {
-                this._headers = this._headers.delete('Authorization');
-            }
-        });
     }
 
     public delete<TType>(resource: string, body?: any): Observable<ApiResponse<TType> | null> {

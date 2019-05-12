@@ -11,7 +11,6 @@ import {NgxsModule} from '@ngxs/store';
 import 'hammerjs';
 import {environment} from '../../environments/environment';
 import {ChangesService} from '../shared/api/changes/changes.service';
-import {UsersService} from '../shared/api/users/users.service';
 import {BreakpointsService} from '../shared/dev-tools/breakpoints/breakpoints.service';
 import {DevToolsModule} from '../shared/dev-tools/dev-tools.module';
 import {DialogsModule} from '../shared/dialogs/dialogs.module';
@@ -35,7 +34,6 @@ import {LabelsState} from '../states/editor/labels/labels.state';
 import {SelectionsState} from '../states/editor/selections/selections.state';
 import {LayoutState} from '../states/layout/layout.state';
 import {SideBarsState} from '../states/side-bars/side-bars.state';
-import {UsersState} from '../states/users/users.state';
 import {BodyComponent} from './body/body.component';
 import {FontAwesomeIcons} from './font-awesome-icons';
 import {MainRoutingModule} from './main-routing.module';
@@ -57,7 +55,6 @@ const STATES = [
     ItemsState,
     LayoutState,
     SelectionsState,
-    UsersState,
     LabelsState,
     SideBarsState
 ];
@@ -103,10 +100,8 @@ const SIDE_BAR_MODULES = [
 })
 export class MainModule {
     public constructor(changes: ChangesService,
-                       breakpoints: BreakpointsService,
-                       users: UsersService) {
+                       breakpoints: BreakpointsService) {
         changes.initialize();
         breakpoints.initialize();
-        users.restore();
     }
 }

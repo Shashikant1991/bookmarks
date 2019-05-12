@@ -18,7 +18,6 @@ import {GroupsState} from './app/states/editor/groups/groups.state';
 import {ItemsState} from './app/states/editor/items/items.state';
 import {SelectionsState} from './app/states/editor/selections/selections.state';
 import {LayoutState} from './app/states/layout/layout.state';
-import {UsersState} from './app/states/users/users.state';
 
 declare const require: any;
 
@@ -37,7 +36,6 @@ getTestBed().initTestEnvironment(
         <any>NgxsModule.forRoot([
             AppState,
             LayoutState,
-            UsersState,
             CardsState,
             EditorState,
             GroupsState,

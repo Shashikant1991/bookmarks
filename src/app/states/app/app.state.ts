@@ -2,7 +2,9 @@ import {RouterNavigation} from '@ngxs/router-plugin';
 import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {Observable, Subscriber} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {DocumentsSortAction} from '../editor/documents/documents-sort.action';
 import {AppModel} from '../models/app-model';
+import {UsersModel} from '../models/users-model';
 import {AppMetaAction} from './app-meta.action';
 import {AppNetworkAction} from './app-network.action';
 import {AppSearchAction} from './app-search.action';
@@ -13,6 +15,8 @@ type AppContext = StateContext<AppModel>;
 @State<AppModel>({
     name: 'app',
     defaults: {
+        archive_ids: [],
+        document_ids: [],
         meta: null,
         networkRead: false,
         networkWrite: false,
@@ -20,6 +24,16 @@ type AppContext = StateContext<AppModel>;
     }
 })
 export class AppState {
+    @Selector()
+    public static archiveIds(state: UsersModel) {
+        return state.archive_ids;
+    }
+
+    @Selector()
+    public static documentIds(state: UsersModel) {
+        return state.document_ids;
+    }
+
     @Selector()
     public static meta(state: AppModel) {
         return state.meta;
@@ -51,31 +65,38 @@ export class AppState {
     }
 
     @Action(AppNetworkAction)
-    public AppNetworkAction(ctx: AppContext, action: AppNetworkAction) {
-        ctx.patchState({
-            networkRead: action.read,
-            networkWrite: action.write
-        });
+    public AppNetworkAction({patchState}: AppContext, action: AppNetworkAction) {
+        patchState({networkRead: action.read, networkWrite: action.write});
     }
 
     @Action(AppMetaAction)
-    public appMetaAction(ctx: AppContext, action: AppMetaAction) {
-        ctx.patchState({meta: action.meta});
+    public appMetaAction({patchState}: AppContext, {meta}: AppMetaAction) {
+        patchState({meta});
     }
 
     @Action(AppSearchAction)
-    public appSearchAction(ctx: AppContext, {search}: AppSearchAction) {
-        ctx.patchState({search});
+    public appSearchAction({patchState}: AppContext, {search}: AppSearchAction) {
+        patchState({search});
     }
 
     @Action(AppSequenceAction)
-    public appSequenceAction(ctx: AppContext, action: AppSequenceAction) {
-        return new Observable<void>(subscriber => this.dispatchSequence(subscriber, ctx, action.actions));
+    public appSequenceAction(ctx: AppContext, {actions}: AppSequenceAction) {
+        return new Observable<void>(subscriber => this.dispatchSequence(subscriber, ctx, actions));
+    }
+
+    @Action(DocumentsSortAction)
+    public documentsSortAction({patchState}: AppContext, {document_ids, archive_ids}: DocumentsSortAction) {
+        if (document_ids) {
+            patchState({document_ids});
+        }
+        if (archive_ids) {
+            patchState({archive_ids});
+        }
     }
 
     @Action(RouterNavigation)
-    public routerNavigation(ctx: AppContext) {
-        ctx.patchState({meta: null});
+    public routerNavigation({patchState}: AppContext) {
+        patchState({meta: null});
     }
 
     private dispatchSequence(subscriber: Subscriber<void>, ctx: AppContext, actions: any[]) {
