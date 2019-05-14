@@ -51,6 +51,6 @@ export class DocumentsService {
     }
 
     public templates(): Observable<ApiResponse<TemplateEntity[]>> {
-        return this._rest.get<DocumentEntity[]>('templates');
+        return this._rest.get<TemplateEntity[]>('templates');
     }
 }
