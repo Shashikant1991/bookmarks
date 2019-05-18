@@ -6,7 +6,6 @@ import {GroupsModule} from '../../shared/groups/groups.module';
 import {LoadersModule} from '../../shared/loaders/loaders.module';
 import {MessagesModule} from '../../shared/messages/messages.module';
 import {BookmarksRoutingModule} from './bookmarks-routing.module';
-import {OutletDocumentsComponent} from './outlet-documents/outlet-documents.component';
 import {OutletEditorComponent} from './outlet-editor/outlet-editor.component';
 
 @NgModule({
@@ -20,7 +19,6 @@ import {OutletEditorComponent} from './outlet-editor/outlet-editor.component';
         MessagesModule
     ],
     declarations: [
-        OutletDocumentsComponent,
         OutletEditorComponent
     ]
 })

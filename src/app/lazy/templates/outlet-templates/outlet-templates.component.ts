@@ -5,7 +5,6 @@ import {Store} from '@ngxs/store';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {merge} from 'rxjs/internal/observable/merge';
 import {takeUntil} from 'rxjs/operators';
-import {DocumentsService} from '../../../shared/api/documents/documents.service';
 import {LogService} from '../../../shared/dev-tools/log/log.service';
 import {FeatureLoaderState} from '../../../shared/loaders/feature-loader-types';
 import {TemplateEntity} from '../../../shared/networks/entities/template.entity';
@@ -31,7 +30,6 @@ export class OutletTemplatesComponent implements OnInit, OnDestroy {
     private readonly _log: LogService;
 
     public constructor(private _store: Store,
-                       private _documents: DocumentsService,
                        private _templates: TemplatesService,
                        private _activatedRoute: ActivatedRoute,
                        log: LogService) {

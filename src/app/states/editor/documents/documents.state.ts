@@ -1,5 +1,4 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
-import {DocumentsService} from '../../../shared/api/documents/documents.service';
 import {LogService} from '../../../shared/dev-tools/log/log.service';
 import {DocumentEntity} from '../../../shared/networks/entities/document.entity';
 import {EntityMap} from '../../../shared/networks/entities/entity-map';
@@ -26,8 +25,7 @@ export class DocumentsState {
 
     private readonly _tracker: ChangesTracker<DocumentEntity>;
 
-    public constructor(private _documents: DocumentsService,
-                       log: LogService) {
+    public constructor(log: LogService) {
         this._log = log.withPrefix(DocumentsState.name);
         this._tracker = new ChangesTracker(this._log, true, 'documents');
     }

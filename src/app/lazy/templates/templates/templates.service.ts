@@ -21,7 +21,8 @@ export class TemplatesService {
         'tech': 'Technology',
         'iot': 'Internet of Things',
         'private-equity': 'Private Equity',
-        'content-marketing': 'Content Marketing'
+        'content-marketing': 'Content Marketing',
+        'data-science': 'Data Science'
     };
 
     @Select(EditorState.nextIds)
