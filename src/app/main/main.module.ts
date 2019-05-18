@@ -18,7 +18,6 @@ import {DragModule} from '../shared/drag/drag.module';
 import {EditorModule} from '../shared/editor/editor.module';
 import {SideBarsModule} from '../shared/side-bars/side-bars.module';
 import {ArchivedModule} from '../side-bars/archived/archived.module';
-import {DebugModule} from '../side-bars/debug/debug.module';
 import {GeneralModule} from '../side-bars/general/general.module';
 import {SelectionModule} from '../side-bars/selection/selection.module';
 import {AppState} from '../states/app/app.state';
@@ -60,7 +59,6 @@ const STATES = [
 ];
 
 const SIDE_BAR_MODULES = [
-    DebugModule,
     ArchivedModule,
     GeneralModule,
     // LabelsModule,
