@@ -4,8 +4,7 @@ import {DocumentEntity} from '../../shared/networks/entities/document.entity';
 import {EntityMap} from '../../shared/networks/entities/entity-map';
 import {GroupEntity} from '../../shared/networks/entities/group.entity';
 import {ItemEntity} from '../../shared/networks/entities/item.entity';
-import {EditorNextIds} from './editor-next-ids';
-import {EntityId, EntityIdType} from '../../shared/networks/networks.types';
+import {EntityId} from '../../shared/networks/networks.types';
 import {AppSequenceAction} from '../app/app-sequence.action';
 import {EditorModel} from '../models/editor-model';
 import {CardEditorState} from './card-editor/card-editor.state';
@@ -15,6 +14,7 @@ import {DocumentsState} from './documents/documents.state';
 import {DragState} from './drag/drag.state';
 import {EditorCardIdAction} from './editor-card-id.action';
 import {EditorGetDocumentAction} from './editor-get-document.action';
+import {EditorNextIds} from './editor-next-ids';
 import {EditorSetDocumentAction} from './editor-set-document.action';
 import {EditorShowUrlsAction} from './editor-show-urls.action';
 import {EditorUnpublishAction} from './editor-unpublish.action';
@@ -103,6 +103,10 @@ export class EditorState {
 
     @Action(EditorSetDocumentAction)
     public editorDocumentAction(ctx: EditorContext, {document_id}: EditorSetDocumentAction) {
+        const {documents} = (<any>ctx.getState()) as { documents: EntityMap<DocumentEntity> };
+        if (typeof documents[document_id] === 'undefined') {
+            throw new Error(`Document ${document_id} does not exist`);
+        }
         ctx.patchState({document_id});
     }
 

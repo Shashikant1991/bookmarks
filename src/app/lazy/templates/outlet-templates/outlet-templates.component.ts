@@ -77,30 +77,5 @@ export class OutletTemplatesComponent implements OnInit, OnDestroy {
         }, () => {
             this.loader$.next({type: 'error', canRetry: true, message: 'Could not create document. Try disabling ad-blockers.'});
         });
-
-
-        // this._templates.create(template && (template.id as string)).then(doc => {
-        //     if (doc) {
-        //         this._store.dispatch([
-        //             new DocumentsAddAction(doc),
-        //             new Navigate([`/bookmarks/${doc.id}`])
-        //         ]);
-        //     } else {
-        //         this.loader$.next({type: 'error', canRetry: true, message: 'Could not create document'});
-        //     }
-        // });
-
-        // this._documents.create(template && (template.id as string)).pipe(
-        //     takeUntil(merge(this._cancel$, this._destroyed$))
-        // ).subscribe(resp => {
-        //     if (resp && resp.status === 'success') {
-        //         this._store.dispatch([
-        //             new DocumentsAddAction(resp.data),
-        //             new Navigate([`/bookmarks/${resp.data.id}`])
-        //         ]);
-        //     } else {
-        //         this.loader$.next({type: 'error', canRetry: true, message: 'Could not create document'});
-        //     }
-        // });
     }
 }

@@ -1,8 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {Navigate} from '@ngxs/router-plugin';
 import {Select, Store} from '@ngxs/store';
 import {Observable, Subject} from 'rxjs';
-import {filter, map, takeUntil} from 'rxjs/operators';
+import {filter, map, switchMap, takeUntil} from 'rxjs/operators';
 import {LogService} from '../../../shared/dev-tools/log/log.service';
 import {DocumentEntity} from '../../../shared/networks/entities/document.entity';
 import {AppMetaAction} from '../../../states/app/app-meta.action';
@@ -37,8 +38,12 @@ export class OutletEditorComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this._activatedRoute.params.pipe(
             map(params => parseInt(params['documentId'] || '1', 10)),
+            switchMap(document_id => this._store.dispatch(new EditorSetDocumentAction(document_id))),
             takeUntil(this._destroyed$)
-        ).subscribe(document_id => this._store.dispatch(new EditorSetDocumentAction(document_id)));
+        ).subscribe(() => {
+        }, () => {
+            this._store.dispatch(new Navigate(['/']));
+        });
 
         this._store.select(EditorState.document).pipe(
             filter(Boolean),
