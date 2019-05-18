@@ -41,15 +41,19 @@ export class DocumentGenerator {
 
     public createDocument(): DocumentResponse {
         const document_id = this._nextIds.document_id++;
-        return {
+        const doc: DocumentResponse = {
             ...DocumentGenerator.createId(document_id),
             ...DocumentGenerator.createTimestamp(),
             archived: false,
             label_ids: [],
             order: document_id,
             title: this._title,
-            groups: [this.createGroup(document_id)]
+            groups: []
         };
+        if (this._entries.length) {
+            doc.groups.push(this.createGroup(document_id));
+        }
+        return doc;
     }
 
     private createCard(group_id: EntityIdType, entries: TemplateEntry[], title?: string): CardResponse {
