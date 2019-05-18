@@ -11,6 +11,7 @@ import {FeatureLoaderState} from '../../../shared/loaders/feature-loader-types';
 import {TemplateEntity} from '../../../shared/networks/entities/template.entity';
 import {AppMetaAction} from '../../../states/app/app-meta.action';
 import {DocumentsAddAction} from '../../../states/editor/documents/documents-add.action';
+import {TemplatesService} from '../templates/templates.service';
 
 @Component({
     selector: 'tag-outlet-templates',
@@ -31,6 +32,7 @@ export class OutletTemplatesComponent implements OnInit, OnDestroy {
 
     public constructor(private _store: Store,
                        private _documents: DocumentsService,
+                       private _templates: TemplatesService,
                        private _activatedRoute: ActivatedRoute,
                        log: LogService) {
         this._log = log.withPrefix(OutletTemplatesComponent.name);
@@ -40,17 +42,27 @@ export class OutletTemplatesComponent implements OnInit, OnDestroy {
         this.loader$.next({type: 'busy'});
         this.templates$.next([]);
         this._cancel$.next();
-        this._documents.templates().pipe(
+
+        this._templates.getTemplates().pipe(
             takeUntil(merge(this._cancel$, this._destroyed$))
-        ).subscribe(resp => {
-            if (resp && resp.status === 'success') {
-                this.loader$.next(null);
-                this.templates$.next(resp.data);
-            } else {
-                this.loader$.next({type: 'error', canRetry: true, message: 'Could not load templates'});
-                this.templates$.next([]);
-            }
+        ).subscribe(templates => {
+            this.loader$.next(null);
+            this.templates$.next(templates);
+        }, () => {
+            this.loader$.next({type: 'error', canRetry: true, message: 'Could not load templates'});
         });
+
+        // this._documents.templates().pipe(
+        //     takeUntil(merge(this._cancel$, this._destroyed$))
+        // ).subscribe(resp => {
+        //     if (resp && resp.status === 'success') {
+        //         this.loader$.next(null);
+        //         this.templates$.next(resp.data);
+        //     } else {
+        //         this.loader$.next({type: 'error', canRetry: true, message: 'Could not load templates'});
+        //         this.templates$.next([]);
+        //     }
+        // });
     }
 
     public ngOnDestroy(): void {
