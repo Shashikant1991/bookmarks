@@ -200,7 +200,7 @@ export class CardsState {
     @Action(DocumentsAddAction)
     public editorDocumentAction(ctx: CardsContext, action: DocumentsAddAction) {
         const state = action.cards.reduce((current, card) => ({...current, [card.id]: card}), {});
-        ctx.setState(state);
+        ctx.patchState(state);
     }
 
     private _cloneAsPromise(itemId: EntityIdType, clone: boolean): Promise<EntityIdType> {

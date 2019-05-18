@@ -57,7 +57,7 @@ export class GroupsState {
     public editorDocumentAction(ctx: GroupsContext, action: DocumentsAddAction) {
         const state = {};
         action.groups.forEach(group => state[group.id] = group);
-        ctx.setState(state);
+        ctx.patchState(state);
     }
 
     @Action(GroupsAddCardAction)

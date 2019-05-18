@@ -52,7 +52,7 @@ export class ItemsState {
     public editorDocumentAction(ctx: ItemsContext, action: DocumentsAddAction) {
         const state = {};
         action.items.forEach(item => state[item.id] = item);
-        ctx.setState(state);
+        ctx.patchState(state);
     }
 
     @Action(ItemsCloneAction)
