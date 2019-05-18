@@ -50,6 +50,9 @@ export class DocumentsService {
         return this._rest.get<DocumentResponse>(`documents/${documentId}`);
     }
 
+    /**
+     * @deprecated
+     */
     public templates(): Observable<ApiResponse<TemplateEntity[]>> {
         return this._rest.get<TemplateEntity[]>('templates');
     }

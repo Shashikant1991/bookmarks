@@ -43,7 +43,7 @@ export class OutletTemplatesComponent implements OnInit, OnDestroy {
         this.templates$.next([]);
         this._cancel$.next();
 
-        this._templates.getTemplates().pipe(
+        this._templates.templates$.pipe(
             takeUntil(merge(this._cancel$, this._destroyed$))
         ).subscribe(templates => {
             this.loader$.next(null);
@@ -51,18 +51,6 @@ export class OutletTemplatesComponent implements OnInit, OnDestroy {
         }, () => {
             this.loader$.next({type: 'error', canRetry: true, message: 'Could not load templates'});
         });
-
-        // this._documents.templates().pipe(
-        //     takeUntil(merge(this._cancel$, this._destroyed$))
-        // ).subscribe(resp => {
-        //     if (resp && resp.status === 'success') {
-        //         this.loader$.next(null);
-        //         this.templates$.next(resp.data);
-        //     } else {
-        //         this.loader$.next({type: 'error', canRetry: true, message: 'Could not load templates'});
-        //         this.templates$.next([]);
-        //     }
-        // });
     }
 
     public ngOnDestroy(): void {
