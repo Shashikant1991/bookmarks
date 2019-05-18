@@ -30,6 +30,9 @@ export class DocumentsService {
         return this._rest.post<void>(`changes`, changes);
     }
 
+    /**
+     * @deprecated
+     */
     public create(template?: string): Observable<ApiResponse<DocumentEntity>> {
         return this._rest.post<DocumentEntity>(`documents`, {template});
     }
