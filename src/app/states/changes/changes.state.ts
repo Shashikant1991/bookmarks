@@ -3,7 +3,7 @@ import {switchMap} from 'rxjs/operators';
 import {DocumentsService} from '../../shared/api/documents/documents.service';
 import {LogService} from '../../shared/dev-tools/log/log.service';
 import {EntityChange, EntityChangeEnum} from '../../shared/networks/networks.types';
-import {EditorSetDocumentAction} from '../editor/editor-set-document.action';
+import {DocumentsAddAction} from '../editor/documents/documents-add.action';
 import {ChangesModel} from '../models/changes-model';
 import {ChangesCreateAction} from './changes-create.action';
 import {ChangesDeleteAction} from './changes-delete.action';
@@ -21,6 +21,9 @@ const CHANGES_DEFAULT: ChangesModel = {
     sending: null
 };
 
+/**
+ * @deprecated
+ */
 @State<ChangesModel>({
     name: 'changes',
     defaults: CHANGES_DEFAULT
@@ -115,8 +118,8 @@ export class ChangesState {
         }
     }
 
-    @Action(EditorSetDocumentAction)
-    public editorDocumentAction(ctx: ChangesContext, {document}: EditorSetDocumentAction) {
+    @Action(DocumentsAddAction)
+    public editorDocumentAction(ctx: ChangesContext, {document}: DocumentsAddAction) {
         ctx.patchState({document_id: document.id});
     }
 

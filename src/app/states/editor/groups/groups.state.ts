@@ -12,8 +12,8 @@ import {CardEditorPublishAction} from '../card-editor/card-editor-publish.action
 import {CardsDeleteAction} from '../cards/cards-delete.action';
 import {CardsSortAction} from '../cards/cards-sort.action';
 import {CardsState} from '../cards/cards.state';
+import {DocumentsAddAction} from '../documents/documents-add.action';
 import {DocumentsTrackGroupAction} from '../documents/documents-track-group.action';
-import {EditorSetDocumentAction} from '../editor-set-document.action';
 import {GroupsAddCardAction} from './groups-add-card.action';
 import {GroupsCreateAction} from './groups-create.action';
 import {GroupsDeleteCardAction} from './groups-delete-card.action';
@@ -53,8 +53,8 @@ export class GroupsState {
         return (id: EntityIdType) => state[id];
     }
 
-    @Action(EditorSetDocumentAction)
-    public editorDocumentAction(ctx: GroupsContext, action: EditorSetDocumentAction) {
+    @Action(DocumentsAddAction)
+    public editorDocumentAction(ctx: GroupsContext, action: DocumentsAddAction) {
         const state = {};
         action.groups.forEach(group => state[group.id] = group);
         ctx.setState(state);

@@ -8,8 +8,8 @@ import {EntityIdType} from '../../../shared/networks/networks.types';
 import {ChangesTracker} from '../../changes/changes-tracker';
 import {CardsAddItemAction} from '../cards/cards-add-item.action';
 import {CardsRemoveItemAction} from '../cards/cards-remove-item.action';
+import {DocumentsAddAction} from '../documents/documents-add.action';
 import {DragVisibleAction} from '../drag/drag-visible.action';
-import {EditorSetDocumentAction} from '../editor-set-document.action';
 import {ItemsCloneAction} from './items-clone.action';
 import {ItemsCreateAction} from './items-create.action';
 import {ItemsDeleteAction} from './items-delete.action';
@@ -48,8 +48,8 @@ export class ItemsState {
         }
     }
 
-    @Action(EditorSetDocumentAction)
-    public editorDocumentAction(ctx: ItemsContext, action: EditorSetDocumentAction) {
+    @Action(DocumentsAddAction)
+    public editorDocumentAction(ctx: ItemsContext, action: DocumentsAddAction) {
         const state = {};
         action.items.forEach(item => state[item.id] = item);
         ctx.setState(state);

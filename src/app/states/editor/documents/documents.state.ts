@@ -5,8 +5,6 @@ import {DocumentEntity} from '../../../shared/networks/entities/document.entity'
 import {EntityMap} from '../../../shared/networks/entities/entity-map';
 import {EntityIdType} from '../../../shared/networks/networks.types';
 import {ChangesTracker} from '../../changes/changes-tracker';
-import {EditorSetDocumentAction} from '../editor-set-document.action';
-import {EditorUnsetDocumentAction} from '../editor-unset-document.action';
 import {GroupsDeleteAction} from '../groups/groups-delete.action';
 import {ItemsSortAction} from '../items/items-sort.action';
 import {DocumentsAddAction} from './documents-add.action';
@@ -40,8 +38,8 @@ export class DocumentsState {
     }
 
     @Action(DocumentsAddAction)
-    public documentsAddAction(ctx: DocumentContext, {entity}: DocumentsAddAction) {
-        this._tracker.set(ctx, entity);
+    public documentsAddAction(ctx: DocumentContext, {document}: DocumentsAddAction) {
+        this._tracker.set(ctx, document);
         return ctx.dispatch(new DocumentsReorderAction());
     }
 
@@ -104,20 +102,6 @@ export class DocumentsState {
     public documentsTrackGroupAction(ctx: DocumentContext, action: DocumentsTrackGroupAction) {
         const document = this._tracker.get(ctx, action.document_id);
         return ctx.dispatch(this._tracker.edit(ctx, {id: document.id, _group_ids: [...document._group_ids, action.group_id]}));
-    }
-
-    @Action(EditorSetDocumentAction)
-    public editorDocumentAction(ctx: DocumentContext, {document}: EditorSetDocumentAction) {
-        this._tracker.set(ctx, document);
-    }
-
-    @Action(EditorUnsetDocumentAction)
-    public editorUnsetDocumentAction(ctx: DocumentContext, {document_id}: EditorUnsetDocumentAction) {
-        const doc = this._tracker.clone(ctx, document_id);
-        if (doc._group_ids) {
-            delete doc._group_ids;
-            this._tracker.set(ctx, doc);
-        }
     }
 
     @Action(GroupsDeleteAction)

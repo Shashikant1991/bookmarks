@@ -75,7 +75,7 @@ export class OutletTemplatesComponent implements OnInit, OnDestroy {
                 new Navigate([`/bookmarks/${doc.id}`])
             ]);
         }, () => {
-            this.loader$.next({type: 'error', canRetry: true, message: 'Could not create document'});
+            this.loader$.next({type: 'error', canRetry: true, message: 'Could not create document. Try disabling ad-blockers.'});
         });
 
 

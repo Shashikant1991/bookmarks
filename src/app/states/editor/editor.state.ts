@@ -13,7 +13,6 @@ import {EditorGetDocumentAction} from './editor-get-document.action';
 import {EditorSetDocumentAction} from './editor-set-document.action';
 import {EditorShowUrlsAction} from './editor-show-urls.action';
 import {EditorUnpublishAction} from './editor-unpublish.action';
-import {EditorUnsetDocumentAction} from './editor-unset-document.action';
 import {GroupsUnpublishAction} from './groups/groups-unpublish.action';
 import {GroupsState} from './groups/groups.state';
 import {ItemsUnpublishAction} from './items/items-unpublish.action';
@@ -80,12 +79,8 @@ export class EditorState {
     }
 
     @Action(EditorSetDocumentAction)
-    public editorDocumentAction(ctx: EditorContext, action: EditorSetDocumentAction) {
-        const documentId = ctx.getState().document_id;
-        ctx.patchState({document_id: action.document.id});
-        if (documentId !== null) {
-            return ctx.dispatch(new EditorUnsetDocumentAction(documentId));
-        }
+    public editorDocumentAction(ctx: EditorContext, {document_id}: EditorSetDocumentAction) {
+        ctx.patchState({document_id});
     }
 
     @Action(EditorGetDocumentAction)

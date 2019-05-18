@@ -7,8 +7,8 @@ import {EntityMap} from '../../../shared/networks/entities/entity-map';
 import {EntityIdType} from '../../../shared/networks/networks.types';
 import {AppSequenceAction} from '../../app/app-sequence.action';
 import {ChangesTracker} from '../../changes/changes-tracker';
+import {DocumentsAddAction} from '../documents/documents-add.action';
 import {DragVisibleAction} from '../drag/drag-visible.action';
-import {EditorSetDocumentAction} from '../editor-set-document.action';
 import {GroupsAddCardAction} from '../groups/groups-add-card.action';
 import {GroupsRemoveCardAction} from '../groups/groups-remove-card.action';
 import {ItemsCloneAction} from '../items/items-clone.action';
@@ -197,8 +197,8 @@ export class CardsState {
         }
     }
 
-    @Action(EditorSetDocumentAction)
-    public editorDocumentAction(ctx: CardsContext, action: EditorSetDocumentAction) {
+    @Action(DocumentsAddAction)
+    public editorDocumentAction(ctx: CardsContext, action: DocumentsAddAction) {
         const state = action.cards.reduce((current, card) => ({...current, [card.id]: card}), {});
         ctx.setState(state);
     }
