@@ -5,7 +5,6 @@ import {GeneralArchivedService} from './general-archived.service';
 import {GeneralHelpService} from './general-help.service';
 import {GeneralKeyboardShortcutsService} from './general-keyboard-shortcuts.service';
 import {GeneralRedoService} from './general-redo.service';
-import {GeneralRefreshService} from './general-refresh.service';
 import {GeneralSearchService} from './general-search.service';
 import {GeneralSendFeedbackService} from './general-send-feedback.service';
 import {GeneralSettingsService} from './general-settings.service';
@@ -29,7 +28,6 @@ export const GENERAL_TOOLS_PROVIDERS = [
     {provide: GENERAL_SIDE_TOOLS, useClass: GeneralAppDownloadService, multi: true},
     {provide: GENERAL_SIDE_TOOLS, useClass: GeneralKeyboardShortcutsService, multi: true},
     {provide: GENERAL_TOP_TOOLS, useClass: GeneralSearchService, multi: true},
-    {provide: GENERAL_TOP_TOOLS, useClass: GeneralRefreshService, multi: true},
     {provide: GENERAL_TOP_TOOLS, useClass: GeneralSettingsService, multi: true},
     {provide: GENERAL_TOP_TOOLS, useClass: GeneralUndoService, multi: true},
     {provide: GENERAL_TOP_TOOLS, useClass: GeneralRedoService, multi: true},

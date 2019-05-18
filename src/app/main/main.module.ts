@@ -10,7 +10,6 @@ import {NgxsModule} from '@ngxs/store';
 // required by Material Angular
 import 'hammerjs';
 import {environment} from '../../environments/environment';
-import {ChangesService} from '../shared/api/changes/changes.service';
 import {BreakpointsService} from '../shared/dev-tools/breakpoints/breakpoints.service';
 import {DevToolsModule} from '../shared/dev-tools/dev-tools.module';
 import {DialogsModule} from '../shared/dialogs/dialogs.module';
@@ -21,7 +20,6 @@ import {ArchivedModule} from '../side-bars/archived/archived.module';
 import {GeneralModule} from '../side-bars/general/general.module';
 import {SelectionModule} from '../side-bars/selection/selection.module';
 import {AppState} from '../states/app/app.state';
-import {ChangesState} from '../states/changes/changes.state';
 import {CardEditorState} from '../states/editor/card-editor/card-editor.state';
 import {CardsState} from '../states/editor/cards/cards.state';
 import {DocumentsState} from '../states/editor/documents/documents.state';
@@ -46,7 +44,6 @@ const STATES = [
     AppState,
     CardsState,
     CardEditorState,
-    ChangesState,
     DragState,
     DocumentsState,
     EditorState,
@@ -97,9 +94,7 @@ const SIDE_BAR_MODULES = [
     ]
 })
 export class MainModule {
-    public constructor(changes: ChangesService,
-                       breakpoints: BreakpointsService) {
-        changes.initialize();
+    public constructor(breakpoints: BreakpointsService) {
         breakpoints.initialize();
     }
 }

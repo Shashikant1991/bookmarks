@@ -4,10 +4,7 @@ import {LogService} from '../../shared/dev-tools/log/log.service';
 import {EntityMap} from '../../shared/networks/entities/entity-map';
 import {EntityId, EntityIdType} from '../../shared/networks/networks.types';
 import {Assert} from '../../utils/assert';
-import {ChangesCreateAction} from './changes-create.action';
-import {ChangesDeleteAction} from './changes-delete.action';
 import {ChangesNoopAction} from './changes-noop.action';
-import {ChangesPatchAction} from './changes-patch.action';
 
 export class ChangesTracker<TType extends EntityId> {
 
@@ -50,9 +47,7 @@ export class ChangesTracker<TType extends EntityId> {
         patch[entity.id] = <any>entity;
         ctx.patchState(patch);
 
-        return entity._new
-            ? new ChangesNoopAction()
-            : new ChangesCreateAction(this._model, entity.id, entity);
+        return new ChangesNoopAction();
     }
 
     public edit(ctx: StateContext<EntityMap<TType>>, entity: Partial<TType>, persist: boolean = true): any {
@@ -66,9 +61,7 @@ export class ChangesTracker<TType extends EntityId> {
             entity = {modified: new Date().toISOString(), ...<any>entity};
         }
         this.set(ctx, Object.assign(this.clone(ctx, entity.id), entity));
-        return hasChanges && persist
-            ? new ChangesPatchAction(this._model, entity.id, entity)
-            : new ChangesNoopAction();
+        return new ChangesNoopAction();
     }
 
     /**
@@ -110,9 +103,7 @@ export class ChangesTracker<TType extends EntityId> {
         this.mustExist(state, id);
         delete state[id];
         ctx.setState(state);
-        return persist
-            ? new ChangesDeleteAction(this._model, id)
-            : new ChangesNoopAction();
+        return new ChangesNoopAction();
     }
 
     public set(ctx: StateContext<EntityMap<TType>>, entity: TType) {
