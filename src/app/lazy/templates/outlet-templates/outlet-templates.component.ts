@@ -59,7 +59,7 @@ export class OutletTemplatesComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this._store.dispatch(new AppMetaAction({title: 'Document Templates'}));
+        this._store.dispatch(new AppMetaAction({title: 'Create Document'}));
         this.load();
     }
 

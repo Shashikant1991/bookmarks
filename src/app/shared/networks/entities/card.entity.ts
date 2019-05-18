@@ -8,7 +8,7 @@ export interface CardEntity extends EntityId, EntityTimestamp, EntityVisible {
     /**
      * Has many items
      */
-    _item_ids: EntityIdType[];
+    _item_ids?: EntityIdType[];
     /**
      * Color of the card.
      */

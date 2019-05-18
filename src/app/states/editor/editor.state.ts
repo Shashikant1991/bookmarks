@@ -1,6 +1,11 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
+import {CardEntity} from '../../shared/networks/entities/card.entity';
 import {DocumentEntity} from '../../shared/networks/entities/document.entity';
 import {EntityMap} from '../../shared/networks/entities/entity-map';
+import {GroupEntity} from '../../shared/networks/entities/group.entity';
+import {ItemEntity} from '../../shared/networks/entities/item.entity';
+import {EditorNextIds} from './editor-next-ids';
+import {EntityId, EntityIdType} from '../../shared/networks/networks.types';
 import {AppSequenceAction} from '../app/app-sequence.action';
 import {EditorModel} from '../models/editor-model';
 import {CardEditorState} from './card-editor/card-editor.state';
@@ -57,6 +62,24 @@ export class EditorState {
     @Selector()
     public static documentId(state: EditorModel) {
         return state.document_id;
+    }
+
+    @Selector([DocumentsState, GroupsState, CardsState, ItemsState])
+    public static nextIds(state: EditorModel,
+                          documents: EntityMap<DocumentEntity>,
+                          groups: EntityMap<GroupEntity>,
+                          cards: EntityMap<CardEntity>,
+                          items: EntityMap<ItemEntity>): EditorNextIds {
+        function nextId(map: EntityMap<EntityId>): number {
+            return Object.values(map).reduce((prev: number, item: EntityId) => Math.max(prev, <number>item.id), 0) + 1;
+        }
+
+        return {
+            document_id: nextId(documents),
+            group_id: nextId(groups),
+            card_id: nextId(cards),
+            item_id: nextId(items)
+        };
     }
 
     @Selector()

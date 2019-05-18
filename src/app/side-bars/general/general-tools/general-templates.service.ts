@@ -47,7 +47,7 @@ export class GeneralTemplatesService implements ReactiveTool, ReactiveToolStyle 
     }
 
     public title(): Observable<string> {
-        return of('Document Templates');
+        return of('Create Document');
     }
 
     public toolTip(): Observable<string> {

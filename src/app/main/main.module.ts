@@ -5,6 +5,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
+import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
 import {NgxsRouterPluginModule} from '@ngxs/router-plugin';
 import {NgxsModule} from '@ngxs/store';
 // required by Material Angular
