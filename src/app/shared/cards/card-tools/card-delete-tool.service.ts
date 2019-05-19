@@ -2,7 +2,7 @@ import {Inject, Injectable} from '@angular/core';
 import {Store} from '@ngxs/store';
 import {Observable, of} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
-import {GroupsDeleteCardAction} from '../../../states/editor/groups/groups-delete-card.action';
+import {GroupsDeleteCardAction} from '../../../states/storage/groups/groups-delete-card.action';
 import {LogService} from '../../dev-tools/log/log.service';
 import {DialogsService} from '../../dialogs/dialogs/dialogs.service';
 import {EditorModalInterface} from '../../editor/editor-modal-interface';

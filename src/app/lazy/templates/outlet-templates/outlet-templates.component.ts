@@ -9,7 +9,7 @@ import {LogService} from '../../../shared/dev-tools/log/log.service';
 import {FeatureLoaderState} from '../../../shared/loaders/feature-loader-types';
 import {TemplateEntity} from '../../../shared/networks/entities/template.entity';
 import {AppMetaAction} from '../../../states/app/app-meta.action';
-import {DocumentsAddAction} from '../../../states/editor/documents/documents-add.action';
+import {DocumentsAddAction} from '../../../states/storage/documents/documents-add.action';
 import {TemplatesService} from '../templates/templates.service';
 
 @Component({

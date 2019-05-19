@@ -7,7 +7,7 @@ import {first, map, shareReplay} from 'rxjs/operators';
 import {DocumentResponse} from '../../../shared/networks/entities/document.entity';
 import {TemplateEntity, TemplateEntry} from '../../../shared/networks/entities/template.entity';
 import {EditorNextIds} from '../../../states/editor/editor-next-ids';
-import {EditorState} from '../../../states/editor/editor.state';
+import {StorageState} from '../../../states/storage/storage.state';
 import {DocumentGenerator} from './document-generator';
 
 @Injectable()
@@ -25,7 +25,7 @@ export class TemplatesService {
         'data-science': 'Data Science'
     };
 
-    @Select(EditorState.nextIds)
+    @Select(StorageState.nextIds)
     public nextIds$: Observable<EditorNextIds>;
 
     public readonly templates$: Observable<TemplateEntity[]>;

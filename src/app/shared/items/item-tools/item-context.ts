@@ -2,7 +2,7 @@ import {Injectable, Optional} from '@angular/core';
 import {Store} from '@ngxs/store';
 import {Observable, ReplaySubject} from 'rxjs';
 import {filter, first, map, switchMap} from 'rxjs/operators';
-import {ItemsState} from '../../../states/editor/items/items.state';
+import {ItemsState} from '../../../states/storage/items/items.state';
 import {CardContext} from '../../cards/card-tools/card-context';
 import {ItemEntity} from '../../networks/entities/item.entity';
 import {EntityIdType} from '../../networks/networks.types';

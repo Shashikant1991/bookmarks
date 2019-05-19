@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {Store} from '@ngxs/store';
 import {combineLatest, Observable, ReplaySubject, Subject} from 'rxjs';
 import {first, map, switchMap, takeUntil} from 'rxjs/operators';
-import {DocumentsState} from '../../../states/editor/documents/documents.state';
+import {DocumentsState} from '../../../states/storage/documents/documents.state';
 import {EditorState} from '../../../states/editor/editor.state';
 import {Point} from '../../../utils/shapes/point';
 import {Rectangle} from '../../../utils/shapes/rectangle';

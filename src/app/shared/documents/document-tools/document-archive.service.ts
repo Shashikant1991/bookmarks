@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Store} from '@ngxs/store';
 import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {DocumentsPatchAction} from '../../../states/editor/documents/documents-patch.action';
+import {DocumentsPatchAction} from '../../../states/storage/documents/documents-patch.action';
 import {ReactiveTool, ReactiveToolConfig} from '../../reactive-tools/reactive-tool';
 import {ReactiveToolContext} from '../../reactive-tools/reactive-tool-context';
 import {DocumentContext} from './document-context.service';

@@ -3,7 +3,7 @@ import {Navigate} from '@ngxs/router-plugin';
 import {Store} from '@ngxs/store';
 import {Observable, of} from 'rxjs';
 import {filter} from 'rxjs/operators';
-import {DocumentsDeleteAction} from '../../../states/editor/documents/documents-delete.action';
+import {DocumentsDeleteAction} from '../../../states/storage/documents/documents-delete.action';
 import {DialogsService} from '../../dialogs/dialogs/dialogs.service';
 import {DocumentEntity} from '../../networks/entities/document.entity';
 import {ReactiveTool, ReactiveToolConfig} from '../../reactive-tools/reactive-tool';

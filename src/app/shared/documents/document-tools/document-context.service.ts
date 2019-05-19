@@ -4,7 +4,7 @@ import {Observable, ReplaySubject} from 'rxjs';
 import {filter, first, map, switchMap} from 'rxjs/operators';
 import {DocumentEntity} from '../../networks/entities/document.entity';
 import {EntityIdType} from '../../networks/networks.types';
-import {DocumentsState} from '../../../states/editor/documents/documents.state';
+import {DocumentsState} from '../../../states/storage/documents/documents.state';
 
 @Injectable()
 export class DocumentContext {

@@ -6,7 +6,7 @@ import {first, map, switchMap} from 'rxjs/operators';
 import {LogService} from '../../../shared/dev-tools/log/log.service';
 import {LabelEntity} from '../../../shared/networks/entities/label.entity';
 import {EntityIdType} from '../../../shared/networks/networks.types';
-import {LabelsState} from '../../../states/editor/labels/labels.state';
+import {LabelsState} from '../../../states/storage/labels/labels.state';
 import {LabelEditContext} from '../label-tools/label-edit-context';
 import {LABEL_EDIT_PROVIDERS} from '../label-tools/label-providers';
 

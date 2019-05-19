@@ -5,7 +5,7 @@ import {map} from 'rxjs/operators';
 import {CardEntity} from '../../../shared/networks/entities/card.entity';
 import {EntityIdType} from '../../../shared/networks/networks.types';
 import {ReactiveTool} from '../../../shared/reactive-tools/reactive-tool';
-import {CardsPatchAction} from '../../../states/editor/cards/cards-patch.action';
+import {CardsPatchAction} from '../../../states/storage/cards/cards-patch.action';
 import {SelectionsState} from '../../../states/editor/selections/selections.state';
 import {SELECTION_TOOLS} from '../selection-tools/selection-providers';
 import {SelectionSelectAllService} from '../selection-tools/selection-select-all.service';

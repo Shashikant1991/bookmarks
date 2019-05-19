@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy,
 import {Store} from '@ngxs/store';
 import {ReplaySubject, Subject} from 'rxjs';
 import {distinctUntilChanged, map, switchMap, takeUntil} from 'rxjs/operators';
-import {ItemsState} from '../../../states/editor/items/items.state';
+import {ItemsState} from '../../../states/storage/items/items.state';
 import {ItemEntity} from '../../networks/entities/item.entity';
 import {EntityIdType} from '../../networks/networks.types';
 

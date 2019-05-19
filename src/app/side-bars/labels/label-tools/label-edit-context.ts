@@ -4,7 +4,7 @@ import {Observable, ReplaySubject} from 'rxjs';
 import {filter, first, map, switchMap} from 'rxjs/operators';
 import {LabelEntity} from '../../../shared/networks/entities/label.entity';
 import {EntityIdType} from '../../../shared/networks/networks.types';
-import {DocumentsState} from '../../../states/editor/documents/documents.state';
+import {DocumentsState} from '../../../states/storage/documents/documents.state';
 
 @Injectable()
 export class LabelEditContext {

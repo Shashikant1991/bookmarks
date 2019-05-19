@@ -4,7 +4,7 @@ import {combineLatest, Observable} from 'rxjs';
 import {first, map} from 'rxjs/operators';
 import {CardEditorItemIdAction} from '../../../states/editor/card-editor/card-editor-item-id.action';
 import {CardEditorState} from '../../../states/editor/card-editor/card-editor.state';
-import {ItemsState} from '../../../states/editor/items/items.state';
+import {ItemsState} from '../../../states/storage/items/items.state';
 import {KeyboardService} from '../../dev-tools/keyboard/keyboard.service';
 import {LogService} from '../../dev-tools/log/log.service';
 import {CardEntity} from '../../networks/entities/card.entity';

@@ -7,7 +7,7 @@ import {HotKeyDescription, HotKeySectionEnum} from '../../../shared/hot-keys/hot
 import {EntityIdType} from '../../../shared/networks/networks.types';
 import {ReactiveTool, ReactiveToolDisabled, ReactiveToolHotKey} from '../../../shared/reactive-tools/reactive-tool';
 import {AppSequenceAction} from '../../../states/app/app-sequence.action';
-import {GroupsDeleteCardAction} from '../../../states/editor/groups/groups-delete-card.action';
+import {GroupsDeleteCardAction} from '../../../states/storage/groups/groups-delete-card.action';
 import {SelectionsClearAction} from '../../../states/editor/selections/selections-clear.action';
 import {SelectionsState} from '../../../states/editor/selections/selections.state';
 

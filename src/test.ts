@@ -12,10 +12,10 @@ import 'zone.js/dist/zone-testing';
 import {DevToolsModule} from './app/shared/dev-tools/dev-tools.module';
 import {MaterialModule} from './app/shared/material/material.module';
 import {AppState} from './app/states/app/app.state';
-import {CardsState} from './app/states/editor/cards/cards.state';
+import {CardsState} from './app/states/storage/cards/cards.state';
 import {EditorState} from './app/states/editor/editor.state';
-import {GroupsState} from './app/states/editor/groups/groups.state';
-import {ItemsState} from './app/states/editor/items/items.state';
+import {GroupsState} from './app/states/storage/groups/groups.state';
+import {ItemsState} from './app/states/storage/items/items.state';
 import {SelectionsState} from './app/states/editor/selections/selections.state';
 import {LayoutState} from './app/states/layout/layout.state';
 

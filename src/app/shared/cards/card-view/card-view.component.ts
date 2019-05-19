@@ -14,7 +14,7 @@ import {Select, Store} from '@ngxs/store';
 import {fromEvent, merge, Observable, Subject} from 'rxjs';
 import {distinctUntilChanged, filter, map, takeUntil, withLatestFrom} from 'rxjs/operators';
 import {CardEditorState} from '../../../states/editor/card-editor/card-editor.state';
-import {CardsState} from '../../../states/editor/cards/cards.state';
+import {CardsState} from '../../../states/storage/cards/cards.state';
 import {DragState} from '../../../states/editor/drag/drag.state';
 import {EditorCardIdAction} from '../../../states/editor/editor-card-id.action';
 import {EditorState} from '../../../states/editor/editor.state';

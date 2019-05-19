@@ -2,7 +2,7 @@ import {Attribute, ChangeDetectionStrategy, Component, Input, OnInit} from '@ang
 import {Store} from '@ngxs/store';
 import {Observable, ReplaySubject} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
-import {LabelsState} from '../../../states/editor/labels/labels.state';
+import {LabelsState} from '../../../states/storage/labels/labels.state';
 import {LabelEntity} from '../../networks/entities/label.entity';
 import {EntityIdType} from '../../networks/networks.types';
 

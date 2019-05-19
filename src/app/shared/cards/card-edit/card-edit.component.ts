@@ -4,7 +4,7 @@ import {Observable, Subject} from 'rxjs';
 import {filter, first, takeUntil} from 'rxjs/operators';
 import {CardEditorItemIdAction} from '../../../states/editor/card-editor/card-editor-item-id.action';
 import {CardEditorState} from '../../../states/editor/card-editor/card-editor.state';
-import {CardsPatchAction} from '../../../states/editor/cards/cards-patch.action';
+import {CardsPatchAction} from '../../../states/storage/cards/cards-patch.action';
 import {LogService} from '../../dev-tools/log/log.service';
 import {EditorModalInterface} from '../../editor/editor-modal-interface';
 import {EDITOR_MODAL_TOKEN} from '../../editor/editor-modal-token';

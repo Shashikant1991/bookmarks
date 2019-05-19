@@ -13,7 +13,7 @@ import {ElementRef, Injectable, Injector, ViewContainerRef} from '@angular/core'
 import {Store} from '@ngxs/store';
 import {Observable, Subject} from 'rxjs';
 import {finalize, map, takeUntil} from 'rxjs/operators';
-import {CardsState} from '../../../states/editor/cards/cards.state';
+import {CardsState} from '../../../states/storage/cards/cards.state';
 import {KeyboardService} from '../../dev-tools/keyboard/keyboard.service';
 import {LogService} from '../../dev-tools/log/log.service';
 import {MaterialHacker} from '../../material/material-hacker/material.hacker';

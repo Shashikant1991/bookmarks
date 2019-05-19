@@ -3,7 +3,7 @@ import {Select, Store} from '@ngxs/store';
 import {Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {EditorState} from '../../../states/editor/editor.state';
-import {ItemsState} from '../../../states/editor/items/items.state';
+import {ItemsState} from '../../../states/storage/items/items.state';
 import {KeyboardService} from '../../dev-tools/keyboard/keyboard.service';
 import {LogService} from '../../dev-tools/log/log.service';
 import {ItemEntity} from '../../networks/entities/item.entity';

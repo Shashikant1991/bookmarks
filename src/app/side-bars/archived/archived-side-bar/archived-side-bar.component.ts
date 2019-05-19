@@ -3,7 +3,7 @@ import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {EntityIdType} from '../../../shared/networks/networks.types';
 import {SideBarBackground, SideBarComponentStyle} from '../../../shared/side-bars/side-bars.types';
-import {AppState} from '../../../states/app/app.state';
+import {StorageState} from '../../../states/storage/storage.state';
 
 @Component({
     selector: 'tag-archived-side-bar',
@@ -12,7 +12,7 @@ import {AppState} from '../../../states/app/app.state';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArchivedSideBarComponent implements SideBarComponentStyle {
-    @Select(AppState.documentIds)
+    @Select(StorageState.documentIds)
     public documentIds$: Observable<EntityIdType[]>;
 
     public getBackground(): SideBarBackground {

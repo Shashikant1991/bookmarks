@@ -2,7 +2,7 @@ import {animate, style, transition, trigger} from '@angular/animations';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, InjectFlags,
     InjectionToken,
     Injector,
     Input,
@@ -72,7 +72,7 @@ export class SideBarComponentComponent implements OnInit {
     }
 
     public ngOnInit() {
-        const componentType = this._injector.get(this.token);
+        const componentType = this._injector.get(this.token, undefined, InjectFlags.Optional);
         if (!componentType) {
             throw new Error(`${this.token}: component not found`);
         }

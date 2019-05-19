@@ -8,7 +8,7 @@ import {GroupEntity} from '../../../shared/networks/entities/group.entity';
 import {EntityIdType} from '../../../shared/networks/networks.types';
 import {AppSequenceAction} from '../../app/app-sequence.action';
 import {ChangesTracker} from '../../changes/changes-tracker';
-import {CardEditorPublishAction} from '../card-editor/card-editor-publish.action';
+import {CardEditorPublishAction} from '../../editor/card-editor/card-editor-publish.action';
 import {CardsDeleteAction} from '../cards/cards-delete.action';
 import {CardsSortAction} from '../cards/cards-sort.action';
 import {CardsState} from '../cards/cards.state';

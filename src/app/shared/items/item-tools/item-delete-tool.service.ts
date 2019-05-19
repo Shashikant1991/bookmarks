@@ -2,7 +2,7 @@ import {ElementRef, Injectable, ViewContainerRef} from '@angular/core';
 import {Store} from '@ngxs/store';
 import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {ItemsDeleteAction} from '../../../states/editor/items/items-delete.action';
+import {ItemsDeleteAction} from '../../../states/storage/items/items-delete.action';
 import {LogService} from '../../dev-tools/log/log.service';
 import {ReactiveTool, ReactiveToolDisabled} from '../../reactive-tools/reactive-tool';
 import {ItemContext} from './item-context';

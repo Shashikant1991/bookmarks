@@ -9,7 +9,7 @@ import {ChangesTracker} from '../../changes/changes-tracker';
 import {CardsAddItemAction} from '../cards/cards-add-item.action';
 import {CardsRemoveItemAction} from '../cards/cards-remove-item.action';
 import {DocumentsAddAction} from '../documents/documents-add.action';
-import {DragVisibleAction} from '../drag/drag-visible.action';
+import {DragVisibleAction} from '../../editor/drag/drag-visible.action';
 import {ItemsCloneAction} from './items-clone.action';
 import {ItemsCreateAction} from './items-create.action';
 import {ItemsDeleteAction} from './items-delete.action';

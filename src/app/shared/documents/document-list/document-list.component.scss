@@ -3,6 +3,7 @@
 :host {
     display: flex;
     flex-direction: column;
+    overflow: auto;
 
     .document-button-placeholder {
         background-color: $gray-300;

@@ -3,7 +3,7 @@ import {Store} from '@ngxs/store';
 import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {AppSequenceAction} from '../../../states/app/app-sequence.action';
-import {CardsCloneAction} from '../../../states/editor/cards/cards-clone.action';
+import {CardsCloneAction} from '../../../states/storage/cards/cards-clone.action';
 import {SelectionsClearAction} from '../../../states/editor/selections/selections-clear.action';
 import {LogService} from '../../dev-tools/log/log.service';
 import {ReactiveTool, ReactiveToolDisabled} from '../../reactive-tools/reactive-tool';

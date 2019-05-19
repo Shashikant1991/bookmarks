@@ -5,7 +5,7 @@ import {BehaviorSubject, combineLatest, merge, Observable, ReplaySubject, Subjec
 import {distinctUntilChanged, filter, map, takeUntil, withLatestFrom} from 'rxjs/operators';
 import {CardEditorState} from '../../../states/editor/card-editor/card-editor.state';
 import {DragState} from '../../../states/editor/drag/drag.state';
-import {ItemsState} from '../../../states/editor/items/items.state';
+import {ItemsState} from '../../../states/storage/items/items.state';
 import {DragStateEnum} from '../../../states/models/drag-model';
 import {Point} from '../../../utils/shapes/point';
 import {Rectangle} from '../../../utils/shapes/rectangle';

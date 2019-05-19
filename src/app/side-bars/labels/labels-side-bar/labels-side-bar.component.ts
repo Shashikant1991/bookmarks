@@ -3,7 +3,7 @@ import {Select} from '@ngxs/store';
 import {Observable, Subject} from 'rxjs';
 import {EntityIdType} from '../../../shared/networks/networks.types';
 import {SideBarBackground, SideBarComponentStyle} from '../../../shared/side-bars/side-bars.types';
-import {LabelsState} from '../../../states/editor/labels/labels.state';
+import {LabelsState} from '../../../states/storage/labels/labels.state';
 
 @Component({
     selector: 'tag-labels-side-bar',

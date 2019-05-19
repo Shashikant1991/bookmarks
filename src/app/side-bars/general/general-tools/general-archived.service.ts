@@ -7,7 +7,7 @@ import {HotKeysService} from '../../../shared/hot-keys/hot-keys/hot-keys.service
 import {DocumentEntity} from '../../../shared/networks/entities/document.entity';
 import {ReactiveAutoCloseService} from '../../../shared/reactive-tools/reactive-auto-close.service';
 import {ReactiveToolConfig, ReactiveToolHotKey, ReactiveToolStyle} from '../../../shared/reactive-tools/reactive-tool';
-import {DocumentsState} from '../../../states/editor/documents/documents.state';
+import {DocumentsState} from '../../../states/storage/documents/documents.state';
 import {EditorState} from '../../../states/editor/editor.state';
 import {ARCHIVED_SIDE_BAR_TOKEN} from '../../archived/archived-side-bar.token';
 

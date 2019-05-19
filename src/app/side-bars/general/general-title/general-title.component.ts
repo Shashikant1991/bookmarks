@@ -7,7 +7,7 @@ import {KeyboardService} from '../../../shared/dev-tools/keyboard/keyboard.servi
 import {LogService} from '../../../shared/dev-tools/log/log.service';
 import {HotKeysService} from '../../../shared/hot-keys/hot-keys/hot-keys.service';
 import {DocumentEntity} from '../../../shared/networks/entities/document.entity';
-import {DocumentsPatchAction} from '../../../states/editor/documents/documents-patch.action';
+import {DocumentsPatchAction} from '../../../states/storage/documents/documents-patch.action';
 import {EditorState} from '../../../states/editor/editor.state';
 
 @Component({

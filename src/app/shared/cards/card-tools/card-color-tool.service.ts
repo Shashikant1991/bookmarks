@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Store} from '@ngxs/store';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {finalize} from 'rxjs/operators';
-import {CardsPatchAction} from '../../../states/editor/cards/cards-patch.action';
+import {CardsPatchAction} from '../../../states/storage/cards/cards-patch.action';
 import {EditorCardIdAction} from '../../../states/editor/editor-card-id.action';
 import {LogService} from '../../dev-tools/log/log.service';
 import {ReactiveTool, ReactiveToolStyle} from '../../reactive-tools/reactive-tool';
