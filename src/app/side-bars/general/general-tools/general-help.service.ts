@@ -4,7 +4,7 @@ import {ReactiveTool} from '../../../shared/reactive-tools/reactive-tool';
 
 @Injectable()
 export class GeneralHelpService implements ReactiveTool {
-    public readonly order: string = '0300:0200';
+    public readonly order: string = '0300:0100';
 
     public icon(): Observable<string> {
         return of('question-circle');

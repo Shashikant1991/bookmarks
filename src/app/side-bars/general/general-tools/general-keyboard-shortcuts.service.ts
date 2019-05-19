@@ -8,7 +8,7 @@ import {ReactiveTool, ReactiveToolConfig, ReactiveToolHotKey} from '../../../sha
 @Injectable()
 export class GeneralKeyboardShortcutsService implements ReactiveTool, ReactiveToolHotKey {
     public readonly config: Partial<ReactiveToolConfig> = {
-        order: '0300:0400'
+        order: '0300:0200'
     };
 
     public readonly hotKey: HotKeyDescription = {code: 'SHIFT+?', humanCode: '?', message: 'Displays the keyboard shortcuts'};
