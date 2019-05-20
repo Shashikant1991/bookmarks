@@ -1,10 +1,4 @@
-<span *ngIf="!(edit$ | async)"
-      class="txt text-truncate"
-      [class.untitled]="!(document$ | async)?.title"
-      (click)="open()">
-    {{(document$ | async)?.title | untitled}}
-</span>
-<form *ngIf="edit$ | async"
+<form *ngIf="edit$ | async else notEditing"
       [formGroup]="group"
       (submit)="close()"
       class="form-inline w-100">
@@ -25,3 +19,16 @@
         </div>
     </div>
 </form>
+<ng-template #notEditing>
+    <span *ngIf="document$ | async as doc; else noDocument"
+          class="txt text-truncate clickable"
+          [class.untitled]="!doc.title"
+          (click)="open()">
+        {{doc.title | untitled}}
+    </span>
+</ng-template>
+<ng-template #noDocument>
+    <span class="txt text-truncate">
+        {{(meta$ | async)?.title}}
+    </span>
+</ng-template>

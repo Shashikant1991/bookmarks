@@ -1,4 +1,8 @@
-import {Action, Selector, State, StateContext} from '@ngxs/store';
+import {OnDestroy} from '@angular/core';
+import {NavigationStart, Router} from '@angular/router';
+import {Action, Actions, Selector, State, StateContext, Store} from '@ngxs/store';
+import {Subject} from 'rxjs';
+import {filter, takeUntil} from 'rxjs/operators';
 import {DocumentEntity} from '../../shared/networks/entities/document.entity';
 import {EntityMap} from '../../shared/networks/entities/entity-map';
 import {AppSequenceAction} from '../app/app-sequence.action';
@@ -10,6 +14,7 @@ import {ItemsUnpublishAction} from '../storage/items/items-unpublish.action';
 import {CardEditorState} from './card-editor/card-editor.state';
 import {DragState} from './drag/drag.state';
 import {EditorCardIdAction} from './editor-card-id.action';
+import {EditorClearAction} from './editor-clear.action';
 import {EditorGetDocumentAction} from './editor-get-document.action';
 import {EditorSetDocumentAction} from './editor-set-document.action';
 import {EditorShowUrlsAction} from './editor-show-urls.action';
@@ -31,57 +36,75 @@ type EditorContext = StateContext<EditorModel>;
         SelectionsState
     ]
 })
-export class EditorState {
+export class EditorState implements OnDestroy {
+    private readonly _destroyed$: Subject<void> = new Subject();
+
+    public constructor(actions: Actions,
+                       {events}: Router,
+                       store: Store) {
+        events.pipe(
+            filter(event => event instanceof NavigationStart),
+            takeUntil(this._destroyed$)
+        ).subscribe(() => store.dispatch(new EditorClearAction()));
+    }
+
     @Selector()
-    public static cardId(state: EditorModel) {
-        return state.card_id;
+    public static cardId({card_id}: EditorModel) {
+        return card_id;
     }
 
     @Selector([DocumentsState])
-    public static document(state: EditorModel, documents: EntityMap<DocumentEntity>) {
-        if (state.document_id !== null) {
-            return documents[state.document_id];
-        }
-        return undefined;
+    public static document({document_id}: EditorModel, documents: EntityMap<DocumentEntity>) {
+        return document_id !== null ? documents[document_id] : undefined;
     }
 
     @Selector()
-    public static documentId(state: EditorModel) {
-        return state.document_id;
+    public static documentId({document_id}: EditorModel) {
+        return document_id;
     }
 
     @Selector()
-    public static showUrls(state: EditorModel) {
-        return state.show_urls;
+    public static showUrls({show_urls}: EditorModel) {
+        return show_urls;
     }
 
     @Action(EditorCardIdAction)
-    public EditorCardIdAction(ctx: EditorContext, action: EditorCardIdAction) {
-        ctx.patchState({card_id: action.card_id});
+    public EditorCardIdAction({patchState}: EditorContext, {card_id}: EditorCardIdAction) {
+        patchState({card_id});
     }
 
     @Action(EditorUnpublishAction)
-    public EditorUnpublishAction(ctx: EditorContext) {
-        return ctx.dispatch(new AppSequenceAction([
+    public EditorUnpublishAction({dispatch}: EditorContext) {
+        return dispatch(new AppSequenceAction([
             new ItemsUnpublishAction(),
             new CardsUnpublishAction(),
             new GroupsUnpublishAction(),
         ]));
     }
 
+    @Action(EditorClearAction)
+    public editorClearAction({patchState}: EditorContext) {
+        patchState({card_id: null, document_id: null});
+    }
+
     @Action(EditorSetDocumentAction)
-    public editorDocumentAction(ctx: EditorContext, {document_id}: EditorSetDocumentAction) {
-        ctx.patchState({document_id});
+    public editorDocumentAction({patchState}: EditorContext, {document_id}: EditorSetDocumentAction) {
+        patchState({document_id});
     }
 
     @Action(EditorGetDocumentAction)
-    public editorPublishAction(ctx: EditorContext, action: EditorGetDocumentAction) {
-        action.child.document_id = ctx.getState().document_id;
-        return ctx.dispatch(action.child);
+    public editorPublishAction(ctx: EditorContext, {child}: EditorGetDocumentAction) {
+        child.document_id = ctx.getState().document_id;
+        return ctx.dispatch(child);
     }
 
     @Action(EditorShowUrlsAction)
-    public editorShowUrlsAction(ctx: EditorContext, {show_urls}: EditorShowUrlsAction) {
-        ctx.patchState({show_urls});
+    public editorShowUrlsAction({patchState}: EditorContext, {show_urls}: EditorShowUrlsAction) {
+        patchState({show_urls});
+    }
+
+    public ngOnDestroy(): void {
+        this._destroyed$.next();
+        this._destroyed$.complete();
     }
 }

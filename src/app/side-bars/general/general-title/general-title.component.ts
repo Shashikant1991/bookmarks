@@ -7,8 +7,10 @@ import {KeyboardService} from '../../../shared/dev-tools/keyboard/keyboard.servi
 import {LogService} from '../../../shared/dev-tools/log/log.service';
 import {HotKeysService} from '../../../shared/hot-keys/hot-keys/hot-keys.service';
 import {DocumentEntity} from '../../../shared/networks/entities/document.entity';
-import {DocumentsPatchAction} from '../../../states/storage/documents/documents-patch.action';
+import {AppState} from '../../../states/app/app.state';
 import {EditorState} from '../../../states/editor/editor.state';
+import {AppHtmlMeta} from '../../../states/models/app-model';
+import {DocumentsPatchAction} from '../../../states/storage/documents/documents-patch.action';
 
 @Component({
     selector: 'tag-general-title',
@@ -26,6 +28,9 @@ export class GeneralTitleComponent implements OnInit, OnDestroy {
 
     @ViewChild('input', {read: ElementRef})
     public inputEl: ElementRef<HTMLInputElement>;
+
+    @Select(AppState.meta)
+    public meta$: Observable<AppHtmlMeta>;
 
     public titleControl: FormControl;
 
