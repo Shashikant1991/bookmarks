@@ -1,7 +1,8 @@
 <ng-container *ngIf="document$ | async as doc">
     <a class="txt mr-1 text-truncate"
        [class.untitled]="!doc.title"
-       [routerLink]="['/bookmarks/'+doc.id]">
+       [routerLink]="['/bookmarks/'+doc.id]"
+       routerLinkActive="active">
         {{doc.title | untitled}}
     </a>
 </ng-container>

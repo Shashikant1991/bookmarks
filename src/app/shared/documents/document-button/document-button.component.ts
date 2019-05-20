@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import {Store} from '@ngxs/store';
-import {combineLatest, Observable, ReplaySubject, Subject} from 'rxjs';
-import {first, map, switchMap, takeUntil} from 'rxjs/operators';
-import {DocumentsState} from '../../../states/storage/documents/documents.state';
+import {combineLatest, merge, Observable, ReplaySubject, Subject} from 'rxjs';
+import {distinctUntilChanged, filter, first, map, switchMap, takeUntil} from 'rxjs/operators';
 import {EditorState} from '../../../states/editor/editor.state';
+import {DocumentsState} from '../../../states/storage/documents/documents.state';
 import {Point} from '../../../utils/shapes/point';
 import {Rectangle} from '../../../utils/shapes/rectangle';
 import {LogService} from '../../dev-tools/log/log.service';
@@ -19,8 +19,9 @@ import {DOCUMENT_PROVIDERS, DOCUMENT_TOOLS} from '../document-tools/document-pro
     templateUrl: './document-button.component.html',
     styleUrls: ['./document-button.component.scss'],
     host: {
-        '(click)': 'click($event)',
-        '[class.highlighted]': 'highlight'
+        '(click)': 'click($event)' as string,
+        '[class.highlighted]': 'highlight',
+        '[class.active]': 'active'
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
@@ -30,9 +31,13 @@ import {DOCUMENT_PROVIDERS, DOCUMENT_TOOLS} from '../document-tools/document-pro
 })
 export class DocumentButtonComponent implements OnInit, OnDestroy {
 
+    public active: boolean = false;
+
     public document$: Observable<DocumentEntity>;
 
     public highlight: boolean = false;
+
+    private readonly _active$: Subject<void> = new Subject();
 
     private readonly _destroyed$: Subject<void> = new Subject();
 
@@ -74,11 +79,12 @@ export class DocumentButtonComponent implements OnInit, OnDestroy {
             switchMap(documentId => this._store.select(DocumentsState.byId).pipe(map(selector => selector(documentId))))
         );
 
-        combineLatest(
+        combineLatest([
             this._documentId$,
             this._store.select(EditorState.documentId)
-        ).pipe(
-            map(([documentId, editorId]) => documentId === editorId)
+        ]).pipe(
+            map(([documentId, editorId]) => documentId === editorId),
+            takeUntil(this._destroyed$)
         ).subscribe(value => {
             this.highlight = value;
             this._change.markForCheck();
@@ -87,5 +93,23 @@ export class DocumentButtonComponent implements OnInit, OnDestroy {
         this._documentId$.pipe(
             takeUntil(this._destroyed$)
         ).subscribe(documentId => this._editContext.setDocumentId(documentId));
+
+        const navigationEnd$ = this._router.events.pipe(filter(event => event instanceof NavigationEnd));
+
+        merge(
+            this._active$,
+            this._documentId$,
+            navigationEnd$
+        ).pipe(
+            switchMap(() => this._documentId$),
+            map(document_id => this._router.isActive(`/bookmarks/${document_id}`, true)),
+            distinctUntilChanged(),
+            takeUntil(this._destroyed$)
+        ).subscribe(value => {
+            this.active = value;
+            this._change.markForCheck();
+        });
+
+        this._active$.next();
     }
 }

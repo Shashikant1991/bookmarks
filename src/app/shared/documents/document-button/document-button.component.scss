@@ -15,6 +15,10 @@
         background-color: $white-500;
     }
 
+    &.active {
+        background-color: $gray-200;
+    }
+
     &, a {
         color: $white;
     }
