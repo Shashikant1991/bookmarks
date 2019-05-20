@@ -1,10 +1,12 @@
-import {ElementRef, Injectable, ViewContainerRef} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {ReactiveTool} from '../../../shared/reactive-tools/reactive-tool';
+import {ReactiveTool, ReactiveToolConfig} from '../../../shared/reactive-tools/reactive-tool';
 
 @Injectable()
 export class GeneralSendFeedbackService implements ReactiveTool {
-    public readonly order: string = '0300:0300';
+    public readonly config: Partial<ReactiveToolConfig> = {
+        order: '0300:0300'
+    };
 
     public icon(): Observable<string> {
         return of('envelope');

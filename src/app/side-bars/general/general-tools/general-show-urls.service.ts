@@ -20,7 +20,9 @@ import {EditorState} from '../../../states/editor/editor.state';
 @Injectable()
 export class GeneralShowUrlsService implements ReactiveTool, ReactiveToolVisible, ReactiveToolHotKey, ReactiveToolDisabled {
     public readonly config: Partial<ReactiveToolConfig> = {
-        down: true, up: true, order: '0999:0100'
+        down: true,
+        up: true,
+        order: '0999:0100'
     };
 
     public readonly hotKey: HotKeyDescription = {

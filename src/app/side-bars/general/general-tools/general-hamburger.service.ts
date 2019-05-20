@@ -5,16 +5,18 @@ import {distinctUntilChanged, map} from 'rxjs/operators';
 import {EditorModalInterface} from '../../../shared/editor/editor-modal-interface';
 import {EDITOR_MODAL_TOKEN} from '../../../shared/editor/editor-modal-token';
 import {HotKeyDescription} from '../../../shared/hot-keys/hot-keys.types';
-import {ReactiveTool, ReactiveToolDisabled, ReactiveToolHotKey} from '../../../shared/reactive-tools/reactive-tool';
+import {ReactiveTool, ReactiveToolConfig, ReactiveToolDisabled, ReactiveToolHotKey} from '../../../shared/reactive-tools/reactive-tool';
 import {LayoutState} from '../../../states/layout/layout.state';
 import {SideBarsToggleAction} from '../../../states/side-bars/side-bars-toggle.action';
 import {SideBarsState} from '../../../states/side-bars/side-bars.state';
 
 @Injectable()
 export class GeneralHamburgerService implements ReactiveTool, ReactiveToolDisabled, ReactiveToolHotKey {
-    public readonly hotKey: HotKeyDescription = {code: 'CTRL+M', message: 'Opens and closes the side menu'};
+    public readonly config: Partial<ReactiveToolConfig> = {
+        order: 'main:hamburger'
+    };
 
-    public readonly order: string = 'main:hamburger';
+    public readonly hotKey: HotKeyDescription = {code: 'CTRL+M', message: 'Opens and closes the side menu'};
 
     private readonly _toggleMode$: Observable<boolean>;
 
