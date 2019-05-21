@@ -9,6 +9,9 @@ const routes: Routes = [
         component: OutletMainComponent,
         children: [
             {
+                path: '',
+                loadChildren: '../lazy/help/help.module#HelpModule'
+            }, {
                 path: 'bookmarks',
                 loadChildren: '../lazy/bookmarks/bookmarks.module#BookmarksModule'
             }, {
