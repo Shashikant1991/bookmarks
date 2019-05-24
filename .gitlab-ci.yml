@@ -1,0 +1,46 @@
+stages:
+    - build
+    - deploy
+
+before_script:
+    - ls -lah
+    - whoami
+    - hostname
+
+after_script:
+    - ls -lah
+
+package:
+    image: node:latest
+    stage: build
+    script:
+        - npm install
+        - npm run build
+        - tar -czf bookmarks.tar.gz dist bin
+    artifacts:
+        paths:
+            - bookmarks.tar.gz
+    tags:
+        - docker
+#  only:
+#    - /^v\d+\.\d+\.\d+$/
+
+install:
+    stage: deploy
+    script:
+        - sudo a2dissite bookmarks || true
+        - sudo service apache2 reload
+        - sudo rm -fr /var/bookmarks || true
+        - sudo mkdir /var/bookmarks
+        - sudo tar -xzf bookmarks.tar.gz -C /var/bookmarks
+        - sudo chown -R www-data:www-data /var/bookmarks
+        - sudo cp /var/bookmarks/bin/bookmarks.conf /etc/apache2/sites-available/bookmarks.conf
+        - sudo chown www-data:www-data /etc/apache2/sites-available/bookmarks.conf
+        - sudo a2ensite bookmarks
+        - sudo service apache2 reload
+    dependencies:
+        - package
+    tags:
+        - reactgular
+#  only:
+#    - /^v\d+\.\d+\.\d+$/
