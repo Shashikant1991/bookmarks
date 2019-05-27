@@ -16,9 +16,12 @@
 
     .logo {
         display: flex;
-        background-image: url("/assets/img/app-icon-32.png");
-        background-size: $_24px $_24px;
-        width: $_24px;
-        height: $_24px;
+        background-image: url("/assets/logo/reactgular-logo-64.png");
+        background-size: $_64px $_64px;
+        width: $_64px;
+        height: $_64px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: map-get($spacers, 3);
     }
 }
