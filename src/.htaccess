@@ -40,7 +40,7 @@
 
 # #------------ BROWSER CACHING
 # disable browser caching in production.
-<FilesMatch "\.html$">
+<FilesMatch "\.(html|htm|json)$">
 	<IfModule mod_headers.c>
 		FileETag None
 		Header unset ETag
