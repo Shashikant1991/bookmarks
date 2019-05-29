@@ -16,6 +16,7 @@ import {DevToolsModule} from '../shared/dev-tools/dev-tools.module';
 import {DialogsModule} from '../shared/dialogs/dialogs.module';
 import {DragModule} from '../shared/drag/drag.module';
 import {EditorModule} from '../shared/editor/editor.module';
+import {PageNotFoundModule} from '../shared/page-not-found/page-not-found.module';
 import {SideBarsModule} from '../shared/side-bars/side-bars.module';
 import {ArchivedModule} from '../side-bars/archived/archived.module';
 import {GeneralModule} from '../side-bars/general/general.module';
@@ -85,7 +86,8 @@ const SIDE_BAR_MODULES = [
         EditorModule,
         DragModule,
         DialogsModule,
-        ...SIDE_BAR_MODULES
+        ...SIDE_BAR_MODULES,
+        PageNotFoundModule
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: NetworkInterceptorService, multi: true},

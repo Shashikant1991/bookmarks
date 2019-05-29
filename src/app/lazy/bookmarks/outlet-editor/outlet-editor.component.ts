@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {ActivatedRoute} from '@angular/router';
 import {Navigate} from '@ngxs/router-plugin';
 import {Select, Store} from '@ngxs/store';

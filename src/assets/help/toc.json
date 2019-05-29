@@ -1,0 +1,12 @@
+[
+    {
+        "title": "Introduction",
+        "pageId": "introduction",
+        "route": "/"
+    },
+    {
+        "title": "Getting Started",
+        "pageId": "getting-started",
+        "route": "/guide/getting-started"
+    }
+]

@@ -14,7 +14,7 @@ import {DIALOG_REF_TOKEN} from '../dialog-ref.token';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ModalDialogComponent implements OnInit, OnDestroy {
-    @ViewChild(ComponentCreatorDirective)
+    @ViewChild(ComponentCreatorDirective, { static: true })
     public componentCreator: ComponentCreatorDirective;
 
     private readonly _destroyed$: Subject<void> = new Subject();

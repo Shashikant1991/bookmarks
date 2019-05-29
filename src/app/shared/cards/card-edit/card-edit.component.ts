@@ -27,7 +27,7 @@ export class CardEditComponent implements AfterViewInit, OnInit, OnDestroy {
     @Select(CardEditorState.card)
     public card$: Observable<CardEntity>;
 
-    @ViewChild('editTitle')
+    @ViewChild('editTitle', { static: false })
     public editTitle: ElementRef<HTMLInputElement>;
 
     @Select(CardEditorState.isCardEditorFullyOpen)

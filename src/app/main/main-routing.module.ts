@@ -10,16 +10,16 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                loadChildren: '../lazy/help/help.module#HelpModule'
+                loadChildren: () => import('../lazy/help/help.module').then(m => m.HelpModule)
             }, {
                 path: 'bookmarks',
-                loadChildren: '../lazy/bookmarks/bookmarks.module#BookmarksModule'
+                loadChildren: () => import('../lazy/bookmarks/bookmarks.module').then(m => m.BookmarksModule)
             }, {
                 path: 'labels',
-                loadChildren: '../lazy/labels/labels.module#LabelsModule'
+                loadChildren: () => import('../lazy/labels/labels.module').then(m => m.LabelsModule)
             }, {
                 path: 'templates',
-                loadChildren: '../lazy/templates/templates.module#TemplatesModule'
+                loadChildren: () => import('../lazy/templates/templates.module').then(m => m.TemplatesModule)
             }
         ]
     }, {

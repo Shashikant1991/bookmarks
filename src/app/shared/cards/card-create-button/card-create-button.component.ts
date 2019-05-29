@@ -17,7 +17,7 @@ import {EDITOR_MODAL_TOKEN} from '../../editor/editor-modal-token';
 export class CardCreateButtonComponent implements OnInit, OnDestroy {
     public actionHide$: Observable<boolean>;
 
-    @ViewChild('button', {read: ElementRef})
+    @ViewChild('button', { read: ElementRef, static: true })
     public button: ElementRef<HTMLButtonElement>;
 
     @Select(CardEditorState.isNewCard)
