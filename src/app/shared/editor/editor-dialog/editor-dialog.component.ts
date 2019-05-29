@@ -36,7 +36,7 @@ export class EditorDialogComponent implements OnDestroy, AfterContentInit, Edito
 
     private readonly _destroyed: Subject<void> = new Subject();
 
-    @ViewChild(EditorScaleComponent)
+    @ViewChild(EditorScaleComponent, { static: true })
     private _editorScale: EditorScaleComponent;
 
     private _isClosing: boolean = false;

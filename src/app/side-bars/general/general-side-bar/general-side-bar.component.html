@@ -1,7 +1,8 @@
 <tag-side-bar-header class="side-bar-invert" [closable]="false">
     <a class="logo" href="https://reactgular.com/"></a>
 </tag-side-bar-header>
-<tag-card-create-button class="m-3"></tag-card-create-button>
+<tag-card-create-button *ngIf="document$ | async"
+                        class="m-3"></tag-card-create-button>
 <tag-document-list></tag-document-list>
 <!--
 <tag-label-list></tag-label-list>

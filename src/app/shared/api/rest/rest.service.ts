@@ -1,6 +1,6 @@
 import {HttpClient, HttpErrorResponse, HttpEvent, HttpHeaders} from '@angular/common/http';
 import {Injectable, OnDestroy} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {Navigate} from '@ngxs/router-plugin';
 import {Store} from '@ngxs/store';
 import {Observable, of, Subject} from 'rxjs';

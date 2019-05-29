@@ -33,10 +33,10 @@ export class ItemFormComponent implements OnInit, OnDestroy {
 
     public group: FormGroup;
 
-    @ViewChild('inputTitle', {read: ElementRef})
+    @ViewChild('inputTitle', { read: ElementRef, static: true })
     public inputTitle: ElementRef<HTMLInputElement>;
 
-    @ViewChild('inputUrl', {read: ElementRef})
+    @ViewChild('inputUrl', { read: ElementRef, static: true })
     public inputUrl: ElementRef<HTMLInputElement>;
 
     public itemMetaTitle$: Observable<string>;

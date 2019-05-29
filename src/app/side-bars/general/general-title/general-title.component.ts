@@ -26,7 +26,7 @@ export class GeneralTitleComponent implements OnInit, OnDestroy {
 
     public group: FormGroup;
 
-    @ViewChild('input', {read: ElementRef})
+    @ViewChild('input', { read: ElementRef, static: false })
     public inputEl: ElementRef<HTMLInputElement>;
 
     @Select(AppState.meta)

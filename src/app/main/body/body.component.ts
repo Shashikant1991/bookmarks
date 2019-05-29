@@ -17,7 +17,7 @@ import {AppState} from '../../states/app/app.state';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BodyComponent implements OnInit, OnDestroy {
-    @ViewChild(RouterOutlet)
+    @ViewChild(RouterOutlet, { static: true })
     public outlet: RouterOutlet;
 
     public stillBooting: boolean = true;
@@ -67,8 +67,7 @@ export class BodyComponent implements OnInit, OnDestroy {
         ).subscribe(() => {
             const el = this._doc.querySelector('#bootstrap');
             if (el) {
-                el.classList.add('removing');
-                this._wnd.setTimeout(() => el.parentNode.removeChild(el), 250);
+                el.parentNode.removeChild(el);
             }
         });
     }

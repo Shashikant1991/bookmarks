@@ -1,5 +1,5 @@
 import {Inject, Injectable, OnDestroy} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {Store} from '@ngxs/store';
 import {Subject} from 'rxjs';
 import {filter, map, takeUntil} from 'rxjs/operators';

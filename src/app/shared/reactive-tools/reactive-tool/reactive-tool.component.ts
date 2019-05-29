@@ -1,5 +1,5 @@
 import {Attribute, ChangeDetectionStrategy, Component, ElementRef, Input, QueryList, ViewChildren, ViewContainerRef} from '@angular/core';
-import {MatTooltip} from '@angular/material';
+import { MatTooltip } from '@angular/material/tooltip';
 import {Observable, of} from 'rxjs';
 import {LogService} from '../../dev-tools/log/log.service';
 import {

@@ -38,9 +38,7 @@ export class ItemMetaToolService implements ReactiveTool, ReactiveToolDisabled, 
 
     private _url$: ReplaySubject<string> = new ReplaySubject(1);
 
-    public constructor(private _meta: MetaService,
-                       private _store: Store,
-                       private _context: ItemContext) {
+    public constructor(private _meta: MetaService) {
     }
 
     public animate(): Observable<string> {

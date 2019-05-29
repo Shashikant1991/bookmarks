@@ -22,8 +22,8 @@ package:
             - bookmarks.tar.gz
     tags:
         - docker
-#  only:
-#    - /^v\d+\.\d+\.\d+$/
+    only:
+        - master
 
 install:
     stage: deploy
@@ -42,5 +42,5 @@ install:
         - package
     tags:
         - reactgular
-#  only:
-#    - /^v\d+\.\d+\.\d+$/
+    only:
+        - master

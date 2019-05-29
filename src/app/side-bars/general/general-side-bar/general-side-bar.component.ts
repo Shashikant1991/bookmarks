@@ -1,9 +1,11 @@
 import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
+import {DocumentEntity} from '../../../shared/networks/entities/document.entity';
 import {ReactiveTool} from '../../../shared/reactive-tools/reactive-tool';
 import {SideBarBackground, SideBarComponentStyle} from '../../../shared/side-bars/side-bars.types';
 import {AppState} from '../../../states/app/app.state';
+import {EditorState} from '../../../states/editor/editor.state';
 import {GENERAL_SIDE_TOOLS} from '../general-tools/general-providers';
 
 @Component({
@@ -13,6 +15,9 @@ import {GENERAL_SIDE_TOOLS} from '../general-tools/general-providers';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GeneralSideBarComponent implements SideBarComponentStyle {
+    @Select(EditorState.document)
+    public document$: Observable<DocumentEntity>;
+
     @Select(AppState.title)
     public title$: Observable<string>;
 

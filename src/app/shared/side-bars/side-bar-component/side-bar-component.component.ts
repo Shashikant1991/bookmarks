@@ -48,7 +48,7 @@ import {isSideBarComponentStyle, SideBarBackground, SideBarComponentStyle} from 
     ]
 })
 export class SideBarComponentComponent implements OnInit {
-    @ViewChild(ComponentCreatorDirective)
+    @ViewChild(ComponentCreatorDirective, { static: true })
     public componentCreator: ComponentCreatorDirective;
 
     public background: SideBarBackground = 'white';

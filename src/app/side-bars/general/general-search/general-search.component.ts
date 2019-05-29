@@ -11,7 +11,7 @@ import {SelectionsState} from '../../../states/editor/selections/selections.stat
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GeneralSearchComponent implements OnInit {
-    @ViewChild('input', {read: ElementRef})
+    @ViewChild('input', { read: ElementRef, static: true })
     public inputEl: ElementRef<HTMLInputElement>;
 
     @Select(SelectionsState.someSelected)
