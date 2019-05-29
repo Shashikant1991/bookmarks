@@ -1,27 +1,56 @@
-# Client
+[![GitHub package.json version](https://img.shields.io/github/package-json/v/reactgular/bookmarks.svg)](https://github.com/reactgular/bookmarks/releases)
+[![GitHub issues](https://img.shields.io/github/issues/reactgular/bookmarks.svg)](https://github.com/reactgular/bookmarks/issues) 
+[![GitHub last commit](https://img.shields.io/github/last-commit/reactgular/bookmarks.svg)](https://github.com/reactgular/bookmarks/commits/master)
+![GitHub](https://img.shields.io/github/license/reactgular/bookmarks.svg)
+[![GitHub stars](https://img.shields.io/github/stars/reactgular/bookmarks.svg?style=social)](http://github.com/reactgular/bookmarks)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
+# What is Bookmarks?
 
-## Development server
+Bookmarks is a free web application that allows you to organize your
+favorite URLs into neatly placed cards that are stored in multiple documents.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Why was Bookmarks created?
 
-## Code scaffolding
+It is one of several planned projects that will demonstrate my passion for front-end
+development with real-world working examples. If you find this project interested, 
+then visit [Reactgular](https://reactgular.com) to discover other projects.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Source Code
 
-## Build
+You can download a Zip file of the [source code](https://github.com/reactgular/bookmarks/archive/master.zip) but it is better to follow
+the installation instructions below, and run the application locally. 
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Installation
 
-## Running unit tests
+You can download and run this app on your local computer easily. The only 
+prerequisite is that you install [NodeJS](https://nodejs.org/) which can 
+be done by following the instructions on their website.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+The demo can be installed and run by following these commands.
 
-## Running end-to-end tests
+```bash
+git clone https://github.com/reactgular/bookmarks.git
+cd bookmarks
+npm install
+ng serve --open
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+> Note: Bookmarks makes HTTP requests to https://api.bookmarks.reactgular.com for HTML meta data.
 
-## Further help
+## Session Storage
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+This web application is designed to use the browser's local storage for persisting
+data when you return in the future. There is no **authentication** or **security**
+for any of the URLs stored in this web application.  
+
+## Dependencies
+
+The following technologies and libraries were used in the creation of this project.
+Most of what you see here was custom programmed by myself, but I also leverage some
+of the best and most popular dependencies.
+
+- [Angular](https://angular.io) as the front-end framework.
+- [Material Design](https://material.angular.io) as a UI component library.
+- [NgXS](https://ngxs.gitbook.io/ngxs/) for state management.
+- [FontAwesome](https://fontawesome.com/icons) for the icons.
+- [Bootstrap](https://getbootstrap.com/) for the CSS styles and utilities.
