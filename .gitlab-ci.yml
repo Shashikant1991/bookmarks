@@ -28,14 +28,18 @@ package:
 install:
     stage: deploy
     script:
+        - sudo a2dissite bookmarks-le-ssl || true
         - sudo a2dissite bookmarks || true
         - sudo service apache2 reload
         - sudo rm -fr /var/bookmarks || true
         - sudo mkdir /var/bookmarks
         - sudo tar -xzf bookmarks.tar.gz -C /var/bookmarks
         - sudo chown -R www-data:www-data /var/bookmarks
+        - sudo cp /var/bookmarks/bin/bookmarks-le-ssl.conf /etc/apache2/sites-available/bookmarks-le-ssl.conf
         - sudo cp /var/bookmarks/bin/bookmarks.conf /etc/apache2/sites-available/bookmarks.conf
+        - sudo chown www-data:www-data /etc/apache2/sites-available/bookmarks-le-ssl.conf
         - sudo chown www-data:www-data /etc/apache2/sites-available/bookmarks.conf
+        - sudo a2ensite bookmarks-le-ssl
         - sudo a2ensite bookmarks
         - sudo service apache2 reload
     dependencies:
