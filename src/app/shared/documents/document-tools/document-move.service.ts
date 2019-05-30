@@ -1,5 +1,4 @@
 import {moveItemInArray} from '@angular/cdk/drag-drop';
-import {Injectable} from '@angular/core';
 import {Store} from '@ngxs/store';
 import {combineLatest, Observable, of} from 'rxjs';
 import {first, map, withLatestFrom} from 'rxjs/operators';
@@ -11,7 +10,6 @@ import {ReactiveTool, ReactiveToolConfig, ReactiveToolDisabled} from '../../reac
 import {ReactiveToolContext} from '../../reactive-tools/reactive-tool-context';
 import {DocumentContext} from './document-context.service';
 
-@Injectable()
 export abstract class DocumentMoveService implements ReactiveTool, ReactiveToolDisabled {
     public readonly abstract config: Partial<ReactiveToolConfig>;
 
