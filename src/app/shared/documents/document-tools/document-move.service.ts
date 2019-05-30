@@ -30,7 +30,7 @@ export abstract class DocumentMoveService implements ReactiveTool, ReactiveToolD
 
         this._document_id$ = _context.getDocumentId();
         this._archived$ = _context.getDocument().pipe(map(document => document.archived));
-        this._ids$ = combineLatest(document_ids$, archived_ids$).pipe(
+        this._ids$ = combineLatest([document_ids$, archived_ids$]).pipe(
             withLatestFrom(this._archived$, ([document_ids, archived_ids], archived) => archived ? archived_ids : document_ids)
         );
 
@@ -63,7 +63,7 @@ export abstract class DocumentMoveService implements ReactiveTool, ReactiveToolD
     }
 
     public trigger(context?: ReactiveToolContext) {
-        combineLatest(this._archived$, this._document_id$, this._ids$)
+        combineLatest([this._archived$, this._document_id$, this._ids$])
             .pipe(first())
             .subscribe(([archived, document_id, ids]: [boolean, EntityIdType, EntityIdType[]]) => {
                 const indx = ids.indexOf(document_id);

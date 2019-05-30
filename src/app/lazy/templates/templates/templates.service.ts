@@ -42,10 +42,10 @@ export class TemplatesService {
 
     public create(template_id?: string): Observable<DocumentResponse> {
         const templateEntries = template_id ? this.getTemplateEntries(template_id) : of([]);
-        return combineLatest(
+        return combineLatest([
             this.nextIds$,
             templateEntries
-        ).pipe(
+        ]).pipe(
             map(([nextIds, entries]) => {
                 return new DocumentGenerator(nextIds, entries, this.toTitle(template_id)).createDocument();
             }),

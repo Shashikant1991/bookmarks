@@ -44,10 +44,10 @@ export class ItemEditTriggerComponent {
     public set itemId(itemId: EntityIdType) {
         this._itemId = itemId;
         this.item$ = this._store.select(ItemsState.byId).pipe(map(selector => selector(itemId)));
-        this.showLongUrl$ = combineLatest(
+        this.showLongUrl$ = combineLatest([
             this._keyboard.shift$,
             this._store.select(CardEditorState.isItemEditorOpen)
-        ).pipe(map(([shift, open]) => shift && !open));
+        ]).pipe(map(([shift, open]) => shift && !open));
     }
 
     public click(event: MouseEvent, focusTitle: boolean = true) {
@@ -56,11 +56,11 @@ export class ItemEditTriggerComponent {
             return;
         }
         event.preventDefault();
-        combineLatest(
+        combineLatest([
             this.item$,
             this._store.select(CardEditorState.itemId),
             this._store.select(CardEditorState.card)
-        ).pipe(first())
+        ]).pipe(first())
             .subscribe(([item, itemId, card]: [ItemEntity, EntityIdType, CardEntity]) => {
                 const editorItemId = itemId === this._itemId ? null : this._itemId;
                 if (card._item_ids.length === 1 && editorItemId === null) {

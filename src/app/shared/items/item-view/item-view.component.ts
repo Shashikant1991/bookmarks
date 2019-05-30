@@ -43,10 +43,6 @@ export class ItemViewComponent implements OnDestroy {
     public set itemId(value: EntityIdType) {
         this._itemId = value;
         this.item$ = this._store.select(ItemsState.byId).pipe(map(selector => selector(value)));
-        // this.showUrl$ = combineLatest(
-        //     this._store.select(CardEditorState.isCardEditorOpen),
-        //     this._keyboard.shift$
-        // ).pipe(map(([isOpen, shift]) => isOpen ? false : shift));
     }
 
     public hasChildElement(parent: Element, child: Element): boolean {

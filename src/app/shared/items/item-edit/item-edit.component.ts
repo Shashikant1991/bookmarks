@@ -112,7 +112,7 @@ export class ItemEditComponent implements OnDestroy, OnInit {
         this._itemId = itemId;
         this._context.setItemId(itemId);
         this.editorOpen$ = this._store.select(CardEditorState.itemId).pipe(map(id => id === itemId), distinctUntilChanged());
-        this.showControls$ = combineLatest(this.mouseHover$, this.menuOpen$, this.editorOpen$)
+        this.showControls$ = combineLatest([this.mouseHover$, this.menuOpen$, this.editorOpen$])
             .pipe(map(([hover, menu, open]) => (menu || hover || open) && itemId !== 0));
         this.showItemForm$ = merge(
             this.editorOpen$.pipe(filter(Boolean)),

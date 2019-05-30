@@ -133,10 +133,10 @@ export class EditorModalService implements OnDestroy, EditorModalInterface {
 
         // Designed to trigger the closing of the editor after it has finished opening. This resolves change detection errors when
         // the user triggers the close action while the opening animation is happening.
-        combineLatest(
+        combineLatest([
             this._triggerClose$,
             this._store.select(CardEditorState.editorState)
-        ).pipe(
+        ]).pipe(
             filter(([triggerClose, editorState]) => triggerClose && editorState === AniOpenCloseEnum.OPEN),
             first(),
             takeUntil(this._destroyed$)

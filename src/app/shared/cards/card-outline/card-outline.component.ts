@@ -26,15 +26,15 @@ export class CardOutlineComponent {
 
     @Input()
     public set cardId(cardId: EntityIdType) {
-        const cardEditorOpen$: Observable<boolean> = combineLatest(
+        const cardEditorOpen$: Observable<boolean> = combineLatest([
             this._store.select(CardEditorState.cardId),
             this._store.select(CardEditorState.editorState)
-        ).pipe(map(([editorCardId, editorState]) => editorCardId === cardId ? editorState !== AniOpenCloseEnum.CLOSE : false));
+        ]).pipe(map(([editorCardId, editorState]) => editorCardId === cardId ? editorState !== AniOpenCloseEnum.CLOSE : false));
 
         const cardDragging$: Observable<boolean> = this._store.select(DragState.isDraggingCardById)
             .pipe(map(selector => selector(cardId)));
 
-        this.hide$ = combineLatest(cardEditorOpen$, cardDragging$)
+        this.hide$ = combineLatest([cardEditorOpen$, cardDragging$])
             .pipe(
                 map(([cardEditorOpen, cardDragging]) => cardEditorOpen || cardDragging),
                 distinctUntilChanged()

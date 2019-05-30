@@ -1,4 +1,5 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {NavigationStart, Router} from '@angular/router';
 import {Select, Store} from '@ngxs/store';
 import {Observable, Subject} from 'rxjs';
 import {filter, first, takeUntil} from 'rxjs/operators';
@@ -27,7 +28,7 @@ export class CardEditComponent implements AfterViewInit, OnInit, OnDestroy {
     @Select(CardEditorState.card)
     public card$: Observable<CardEntity>;
 
-    @ViewChild('editTitle', { static: false })
+    @ViewChild('editTitle', {static: false})
     public editTitle: ElementRef<HTMLInputElement>;
 
     @Select(CardEditorState.isCardEditorFullyOpen)
@@ -42,6 +43,7 @@ export class CardEditComponent implements AfterViewInit, OnInit, OnDestroy {
 
     public constructor(private _store: Store,
                        private _context: CardContext,
+                       private _router: Router,
                        @Inject(EDITOR_MODAL_TOKEN) private _editorModal: EditorModalInterface,
                        @Inject(CARD_TOOL_TOKEN) public cardTools: ReactiveTool[],
                        log: LogService) {
@@ -78,6 +80,11 @@ export class CardEditComponent implements AfterViewInit, OnInit, OnDestroy {
         this.card$
             .pipe(filter(Boolean), takeUntil(this._destroyed$))
             .subscribe(card => this._context.setCardId(card.id));
+
+        this._router.events.pipe(
+            filter(event => event instanceof NavigationStart),
+            takeUntil(this._destroyed$)
+        ).subscribe(value => this.close());
     }
 
     public setCardTitle(title: any) {

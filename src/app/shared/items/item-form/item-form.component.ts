@@ -165,10 +165,10 @@ export class ItemFormComponent implements OnInit, OnDestroy {
     }
 
     public setFocus() {
-        combineLatest(
+        combineLatest([
             this._store.select(CardEditorState.itemId),
             this._store.select(CardEditorState.itemFocusTitle)
-        ).pipe(
+        ]).pipe(
             first(),
             filter(([itemId]) => itemId === this._itemId)
         ).subscribe(([itemId, focus]) => {

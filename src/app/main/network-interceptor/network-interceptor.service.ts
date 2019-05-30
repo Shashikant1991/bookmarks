@@ -20,10 +20,10 @@ export class NetworkInterceptorService implements HttpInterceptor, OnDestroy {
                        log: LogService) {
         this._log = log.withPrefix(NetworkInterceptorService.name);
 
-        combineLatest(
+        combineLatest([
             NetworkInterceptorService._activeState(this._read$),
             NetworkInterceptorService._activeState(this._write$)
-        ).pipe(
+        ]).pipe(
             takeUntil(this._destroyed$)
         ).subscribe(([read, write]) => this._store.dispatch(new AppNetworkAction(read, write)));
     }

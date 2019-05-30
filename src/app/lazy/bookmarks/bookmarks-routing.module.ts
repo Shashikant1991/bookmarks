@@ -1,11 +1,15 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+import {DeactivateEditor} from './deactivate-editor.service';
 import {OutletEditorComponent} from './outlet-editor/outlet-editor.component';
 
 const routes: Routes = [
     {
         path: ':documentId',
-        component: OutletEditorComponent
+        component: OutletEditorComponent,
+        canDeactivate: [
+            DeactivateEditor
+        ]
     }
 ];
 
