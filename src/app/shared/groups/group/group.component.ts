@@ -104,10 +104,10 @@ export class GroupComponent implements OnDestroy, OnInit, AfterViewInit {
     }
 
     public ngOnInit(): void {
-        this.cardIds$ = combineLatest(
+        this.cardIds$ = combineLatest([
             this.group$.pipe(filter(Boolean)),
             this._dragCardIds$
-        ).pipe(
+        ]).pipe(
             map(([group, ids]: [GroupEntity, EntityIdType[]]) => ids === null ? group._card_ids : ids),
             distinctStringify()
         );
@@ -133,10 +133,10 @@ export class GroupComponent implements OnDestroy, OnInit, AfterViewInit {
             filter(([event, dragState]: [DragManagerEvent, DragModel]) => dragState.state === DragStateEnum.SORT_CARDS),
             takeUntil(this._destroyed$)
         ).subscribe(() => {
-            combineLatest(
+            combineLatest([
                 this.group$,
                 this.cardIds$
-            ).pipe(
+            ]).pipe(
                 filter(([group, cardIds]: [GroupEntity, EntityIdType[]]) => JSON.stringify(group._card_ids) !== JSON.stringify(cardIds)),
                 first()
             ).subscribe(([group, cardIds]: [GroupEntity, EntityIdType[]]) => {

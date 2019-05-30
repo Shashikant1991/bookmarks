@@ -22,10 +22,10 @@ export class GeneralHamburgerService implements ReactiveTool, ReactiveToolDisabl
 
     public constructor(private _store: Store,
                        @Inject(EDITOR_MODAL_TOKEN) private _editorModal: EditorModalInterface) {
-        this._toggleMode$ = combineLatest(
+        this._toggleMode$ = combineLatest([
             this._store.select(LayoutState.isWeb),
             this._store.select(SideBarsState.isOpen)
-        ).pipe(
+        ]).pipe(
             map(([isWeb, sideBar]) => isWeb || !sideBar),
             distinctUntilChanged()
         );

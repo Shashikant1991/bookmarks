@@ -40,9 +40,9 @@ export class ItemCloseToolService implements ReactiveTool, ReactiveToolDisabled,
     }
 
     public visible(): Observable<boolean> {
-        return combineLatest(
+        return combineLatest([
             this._store.select(CardEditorState.itemId),
             this._context.getItemId()
-        ).pipe(map(([a, b]) => a === b));
+        ]).pipe(map(([a, b]) => a === b));
     }
 }

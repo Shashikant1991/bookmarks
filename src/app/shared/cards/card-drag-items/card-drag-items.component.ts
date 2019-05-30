@@ -140,10 +140,10 @@ export class CardDragItemsComponent implements OnInit, OnDestroy {
 
     private _dragItemIds() {
         // switch to the dragItemId$ when dragging so order updates without using state storage.
-        this.itemIds$ = combineLatest(
+        this.itemIds$ = combineLatest([
             this.card$.pipe(filter(Boolean)),
             this._dragItemIds$
-        ).pipe(map(([card, dragItemIds]: [CardEntity, EntityIdType[]]) => dragItemIds === null ? card._item_ids : dragItemIds));
+        ]).pipe(map(([card, dragItemIds]: [CardEntity, EntityIdType[]]) => dragItemIds === null ? card._item_ids : dragItemIds));
     }
 
     private _dragOutside(dragPadding: number) {

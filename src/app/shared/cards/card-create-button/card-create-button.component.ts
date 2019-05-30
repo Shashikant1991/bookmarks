@@ -44,18 +44,18 @@ export class CardCreateButtonComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        combineLatest(
+        combineLatest([
             this._editorModal.query(),
             this.isNewEmpty$
-        ).pipe(
+        ]).pipe(
             filter(values => values[1]),
             takeUntil(this._destroyed$)
         ).subscribe(values => values[0].done(this.button.nativeElement.getBoundingClientRect()));
 
-        this.actionHide$ = combineLatest(
+        this.actionHide$ = combineLatest([
             this._store.select(CardEditorState.editorState),
             this.isNewEmpty$
-        ).pipe(
+        ]).pipe(
             map(([state, isNewCard]) => state !== AniOpenCloseEnum.CLOSE && isNewCard)
         );
     }

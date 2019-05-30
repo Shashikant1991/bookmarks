@@ -33,10 +33,10 @@ export class SelectionGroupService implements ReactiveTool, ReactiveToolDisabled
         const minCount$ = this._store.select(SelectionsState.count).pipe(map(count => count < 2));
 
         const sameGroup$ =
-            combineLatest(
+            combineLatest([
                 this._store.select(SelectionsState.cards),
                 this._store.select(SelectionsState.groups)
-            ).pipe(
+            ]).pipe(
                 map(([cards, groups]: [CardEntity[], GroupEntity[]]) => {
                     return groups.length === 1
                         ? groups[0]._card_ids.length === cards.length
@@ -44,7 +44,7 @@ export class SelectionGroupService implements ReactiveTool, ReactiveToolDisabled
                 })
             );
 
-        return combineLatest(minCount$, sameGroup$).pipe(map(values => values.some(Boolean)));
+        return combineLatest([minCount$, sameGroup$]).pipe(map(values => values.some(Boolean)));
     }
 
     public icon(): Observable<string> {

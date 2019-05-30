@@ -51,10 +51,10 @@ export class OutletMainComponent implements OnInit, OnDestroy {
             map(value => value === 'opening')
         );
 
-        combineLatest(
+        combineLatest([
             indent$,
             this._store.select(LayoutState.isWeb)
-        ).pipe(
+        ]).pipe(
             takeUntil(this._destroyed$)
         ).subscribe(([indent, isWeb]) => {
             this.indent = indent && isWeb;

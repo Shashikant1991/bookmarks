@@ -42,10 +42,10 @@ export class CardAppendToolService implements ReactiveTool, ReactiveToolDisabled
     }
 
     public trigger() {
-        combineLatest(
+        combineLatest([
             this._store.select(CardEditorState.editorState),
             this._context.getCard()
-        ).pipe(
+        ]).pipe(
             first()
         ).subscribe(([state, card]: [AniOpenCloseEnum, CardEntity]) => {
             if (state === AniOpenCloseEnum.OPEN) {

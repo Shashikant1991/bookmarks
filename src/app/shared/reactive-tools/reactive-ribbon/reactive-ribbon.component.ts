@@ -54,13 +54,13 @@ export class ReactiveRibbonComponent {
 
         this.muted$ = this._tools.map(tool => {
             if (isReactiveToolStyle(tool)) {
-                return combineLatest(tool.highlight(), anyHighlighted$)
+                return combineLatest([tool.highlight(), anyHighlighted$])
                     .pipe(map(([highlight, anyHighlighted]) => !highlight && anyHighlighted));
             }
             return anyHighlighted$;
         });
 
-        this.menuMuted$ = combineLatest(anyHighlighted$, this.menu$)
+        this.menuMuted$ = combineLatest([anyHighlighted$, this.menu$])
             .pipe(map(([anyHighlighted, menu]) => anyHighlighted && !menu));
     }
 }

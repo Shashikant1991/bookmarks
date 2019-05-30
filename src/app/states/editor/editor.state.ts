@@ -2,10 +2,12 @@ import {OnDestroy} from '@angular/core';
 import {NavigationStart, Router} from '@angular/router';
 import {Action, Actions, Selector, State, StateContext, Store} from '@ngxs/store';
 import {Subject} from 'rxjs';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter, switchMap, takeUntil} from 'rxjs/operators';
+import {AniOpenCloseEnum} from '../../shared/animations/animations.typets';
 import {DocumentEntity} from '../../shared/networks/entities/document.entity';
 import {EntityMap} from '../../shared/networks/entities/entity-map';
 import {AppSequenceAction} from '../app/app-sequence.action';
+import {CardEditorModel} from '../models/card-editor-model';
 import {EditorModel} from '../models/editor-model';
 import {CardsUnpublishAction} from '../storage/cards/cards-unpublish.action';
 import {DocumentsState} from '../storage/documents/documents.state';
@@ -44,8 +46,15 @@ export class EditorState implements OnDestroy {
                        store: Store) {
         events.pipe(
             filter(event => event instanceof NavigationStart),
+            switchMap(() => store.select(EditorState.canChangeRoute)),
+            filter(Boolean),
             takeUntil(this._destroyed$)
         ).subscribe(() => store.dispatch(new EditorClearAction()));
+    }
+
+    @Selector([CardEditorState])
+    public static canChangeRoute({card_id}: EditorModel, {editorState}: CardEditorModel) {
+        return card_id === null && editorState === AniOpenCloseEnum.CLOSE;
     }
 
     @Selector()

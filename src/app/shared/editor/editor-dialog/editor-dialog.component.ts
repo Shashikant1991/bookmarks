@@ -54,7 +54,7 @@ export class EditorDialogComponent implements OnDestroy, AfterContentInit, Edito
         if (!this._isClosing) {
             this._isClosing = true;
             this.closing.next();
-            combineLatest(this._store.select(CardEditorState.isNewCard), this.cardId$).pipe(first())
+            combineLatest([this._store.select(CardEditorState.isNewCard), this.cardId$]).pipe(first())
                 .subscribe(([isNewCard, cardId]) => {
                     this._editorScale.getClientRect()
                         .pipe(takeUntil(this._destroyed))

@@ -130,14 +130,14 @@ export class LayoutTilesComponent implements OnDestroy, OnInit {
             takeUntil(this._destroyed$)
         ).subscribe(() => this._width());
 
-        combineLatest(
+        combineLatest([
             this._width$.pipe(
                 distinctUntilChanged(),
                 throttleTime(250, undefined, {leading: true, trailing: true})
             ),
             this._columnWidth$.pipe(distinctUntilChanged()),
             this._gutter$.pipe(distinctUntilChanged())
-        ).pipe(
+        ]).pipe(
             // this._log.stream('changes'),
             takeUntil(this._destroyed$)
         ).subscribe(([width, columnWidth, gutter]: [number, number, number]) => {
