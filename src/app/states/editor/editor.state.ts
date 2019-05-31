@@ -1,8 +1,8 @@
 import {OnDestroy} from '@angular/core';
 import {NavigationStart, Router} from '@angular/router';
 import {Action, Actions, Selector, State, StateContext, Store} from '@ngxs/store';
-import {Subject} from 'rxjs';
-import {filter, switchMap, takeUntil} from 'rxjs/operators';
+import {of, Subject} from 'rxjs';
+import {filter, first, switchMap, takeUntil} from 'rxjs/operators';
 import {AniOpenCloseEnum} from '../../shared/animations/animations.typets';
 import {DocumentEntity} from '../../shared/networks/entities/document.entity';
 import {EntityMap} from '../../shared/networks/entities/entity-map';
@@ -45,8 +45,21 @@ export class EditorState implements OnDestroy {
                        {events}: Router,
                        store: Store) {
         events.pipe(
+            // wait for a route change
             filter(event => event instanceof NavigationStart),
-            switchMap(() => store.select(EditorState.canChangeRoute)),
+            switchMap(() => {
+                // get the current card in the editor
+                return store.select(CardEditorState.cardId).pipe(
+                    first(),
+                    switchMap(cardId => {
+                        // wait for the editor to close if there is a card
+                        return cardId === null
+                            ? of(true)
+                            : store.select(EditorState.canChangeRoute);
+                    })
+                );
+            }),
+            // switchMap(() => store.select(EditorState.canChangeRoute)),
             filter(Boolean),
             takeUntil(this._destroyed$)
         ).subscribe(() => store.dispatch(new EditorClearAction()));
