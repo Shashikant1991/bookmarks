@@ -8,8 +8,11 @@ export class ShortenUrlPipe implements PipeTransform {
         if (typeof value === 'string' && HTTP_PROTOCOL.test(value)) {
             value = value.replace(HTTP_PROTOCOL, '');
             // remove trailing slash if it's the only slash
-            if (value.indexOf('/') === value.length - 1) {
+            if (value.endsWith('/')) {
                 value = value.substring(0, value.length - 1);
+            }
+            if (value.startsWith('www.')) {
+                value = value.substring(4);
             }
             return value;
         }

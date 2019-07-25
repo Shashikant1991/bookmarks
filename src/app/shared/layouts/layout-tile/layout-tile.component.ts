@@ -6,6 +6,7 @@ import {WINDOW} from '../../dev-tools/window-token';
 import {EntityIdType} from '../../networks/networks.types';
 import {LayoutPosition} from '../layout-algorithm/layout-position';
 import {LayoutTilesComponent} from '../layout-tiles/layout-tiles.component';
+import {delayTime} from '../../../utils/operators/delay-time';
 
 @Component({
     selector: 'tag-layout-tile',
@@ -93,13 +94,14 @@ export class LayoutTileComponent implements OnDestroy, OnInit {
         this._layout.position$
             .pipe(takeUntil(this._destroyed$))
             .subscribe(position => {
-                // http://javascript.info/coordinates
                 el.style.top = `${position.y}px`;
                 el.style.left = `${position.x}px`;
+                el.style.opacity = '1';
             });
 
         this._layout.position$.pipe(
             first(),
+            delayTime(250),
             takeUntil(this._destroyed$)
         ).subscribe(() => this._wnd.setTimeout(() => el.classList.add('tile-initialized')));
     }

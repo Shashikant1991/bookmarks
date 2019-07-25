@@ -1,3 +1,8 @@
-<span class="img-placeholder">
-    <img *ngIf="url" (error)="url = undefined" [attr.src]="url" alt="Icon">
-</span>
+<img *ngIf="url$ | async as url; else imageError"
+     class="img-image"
+     (error)="loadFailure()"
+     [attr.src]="url"
+     alt="Icon">
+<ng-template #imageError>
+    <span class="img-image img-failure">&nbsp;</span>
+</ng-template>

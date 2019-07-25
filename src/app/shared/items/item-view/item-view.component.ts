@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy} from '@angular/core';
-import {Select, Store} from '@ngxs/store';
-import {Observable, Subject} from 'rxjs';
+import {ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit} from '@angular/core';
+import {Store} from '@ngxs/store';
+import {combineLatest, Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {EditorState} from '../../../states/editor/editor.state';
 import {ItemsState} from '../../../states/storage/items/items.state';
@@ -15,11 +15,10 @@ import {EntityIdType} from '../../networks/networks.types';
     styleUrls: ['./item-view.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ItemViewComponent implements OnDestroy {
+export class ItemViewComponent implements OnInit, OnDestroy {
 
     public item$: Observable<ItemEntity>;
 
-    @Select(EditorState.showUrls)
     public showUrl$: Observable<boolean>;
 
     private readonly _destroyed: Subject<void> = new Subject();
@@ -59,5 +58,14 @@ export class ItemViewComponent implements OnDestroy {
     public ngOnDestroy(): void {
         this._destroyed.next();
         this._destroyed.complete();
+    }
+
+    public ngOnInit(): void {
+        this.showUrl$ = combineLatest([
+            this._store.select(EditorState.showUrls),
+            this.item$.pipe(map(item => !item.title))
+        ]).pipe(
+            map(([showUrls, emptyTitle]) => showUrls || emptyTitle)
+        );
     }
 }

@@ -48,6 +48,8 @@ export class GroupComponent implements OnDestroy, OnInit, AfterViewInit {
     @ViewChildren(LayoutTilesComponent)
     public layoutTiles: QueryList<LayoutTilesComponent>;
 
+    public editTitle: boolean = false;
+
     private readonly _arrangeLayout$: Subject<void> = new Subject();
 
     private readonly _destroyed$: Subject<void> = new Subject();
