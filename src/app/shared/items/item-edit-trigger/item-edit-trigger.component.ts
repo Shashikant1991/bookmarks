@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Store} from '@ngxs/store';
-import {combineLatest, Observable} from 'rxjs';
-import {first, map} from 'rxjs/operators';
+import {combineLatest, Observable, ReplaySubject} from 'rxjs';
+import {first, map, switchMap} from 'rxjs/operators';
 import {CardEditorItemIdAction} from '../../../states/editor/card-editor/card-editor-item-id.action';
 import {CardEditorState} from '../../../states/editor/card-editor/card-editor.state';
 import {ItemsState} from '../../../states/storage/items/items.state';
@@ -17,14 +17,16 @@ import {EntityIdType} from '../../networks/networks.types';
     styleUrls: ['./item-edit-trigger.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
-        '(click)': 'click($event)'
+        '(click)': 'click($event)' as string
     }
 })
-export class ItemEditTriggerComponent {
+export class ItemEditTriggerComponent implements OnInit {
 
     public item$: Observable<ItemEntity>;
 
     public showLongUrl$: Observable<boolean>;
+
+    public itemId$: ReplaySubject<EntityIdType> = new ReplaySubject(1);
 
     private readonly _log: LogService;
 
@@ -34,39 +36,54 @@ export class ItemEditTriggerComponent {
         this._log = log.withPrefix(ItemEditTriggerComponent.name);
     }
 
-    private _itemId: EntityIdType;
-
-    public get itemId(): EntityIdType {
-        return this._itemId;
-    }
-
     @Input()
     public set itemId(itemId: EntityIdType) {
-        this._itemId = itemId;
-        this.item$ = this._store.select(ItemsState.byId).pipe(map(selector => selector(itemId)));
-        this.showLongUrl$ = combineLatest([
-            this._keyboard.shift$,
-            this._store.select(CardEditorState.isItemEditorOpen)
-        ]).pipe(map(([shift, open]) => shift && !open));
+        this.itemId$.next(itemId);
     }
 
     public click(event: MouseEvent, focusTitle: boolean = true) {
         event.stopPropagation();
-        if (event.altKey || event.ctrlKey) {
+        if (event.altKey || event.ctrlKey || event.metaKey) {
             return;
         }
         event.preventDefault();
+
+        const isItemOpen$: Observable<boolean> = this._store.select(CardEditorState.itemId).pipe(
+            switchMap(editItemId => this.itemId$.pipe(map(itemId => itemId === editItemId)))
+        );
+
+        const isItemNew$ = this.item$.pipe(map(item => item._new));
+
+        const canOpenEditor$ = combineLatest([
+            this._store.select(CardEditorState.card),
+            isItemOpen$,
+        ]).pipe(
+            map(([card, isItemOpen]: [CardEntity, boolean]) => card._item_ids.length !== 1 || !isItemOpen)
+        );
+
         combineLatest([
-            this.item$,
-            this._store.select(CardEditorState.itemId),
-            this._store.select(CardEditorState.card)
-        ]).pipe(first())
-            .subscribe(([item, itemId, card]: [ItemEntity, EntityIdType, CardEntity]) => {
-                const editorItemId = itemId === this._itemId ? null : this._itemId;
-                if (card._item_ids.length === 1 && editorItemId === null) {
-                    return;
-                }
-                this._store.dispatch(new CardEditorItemIdAction(editorItemId, !item._new && focusTitle));
-            });
+            canOpenEditor$,
+            isItemNew$,
+            this.itemId$
+        ]).pipe(
+            first()
+        ).subscribe(([canOpen, isNew, itemId]: [boolean, boolean, EntityIdType]) => {
+            if (canOpen) {
+                this._store.dispatch(new CardEditorItemIdAction(itemId, !isNew && focusTitle));
+            }
+        });
+    }
+
+    public ngOnInit(): void {
+        this.item$ = this.itemId$.pipe(
+            switchMap(itemId => this._store.select(ItemsState.byId).pipe(map(selector => selector(itemId))))
+        );
+        this.showLongUrl$ = combineLatest([
+            this._keyboard.shift$,
+            this._store.select(CardEditorState.isItemEditorOpen)
+        ]).pipe(
+            map(([shift, open]) => shift && !open)
+        );
+
     }
 }
