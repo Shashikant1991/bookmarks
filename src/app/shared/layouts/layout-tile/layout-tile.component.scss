@@ -9,7 +9,6 @@
     z-index: $selection-card-z-index;
 
     &.tile-initialized {
-        opacity: 1;
         transition: top $ani-speed $ani-func,
         left $ani-speed $ani-func,
         width $ani-speed $ani-func;

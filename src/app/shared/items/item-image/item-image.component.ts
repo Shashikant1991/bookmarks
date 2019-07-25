@@ -1,10 +1,15 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngxs/store';
-import {ReplaySubject, Subject} from 'rxjs';
-import {distinctUntilChanged, map, switchMap, takeUntil} from 'rxjs/operators';
+import {BehaviorSubject, Observable, ReplaySubject, Subject} from 'rxjs';
+import {distinctUntilChanged, filter, map, switchMap} from 'rxjs/operators';
 import {ItemsState} from '../../../states/storage/items/items.state';
 import {ItemEntity} from '../../networks/entities/item.entity';
 import {EntityIdType} from '../../networks/networks.types';
+
+interface ImageUrl {
+    url: string;
+    error: boolean;
+}
 
 @Component({
     selector: 'tag-item-image',
@@ -15,9 +20,13 @@ import {EntityIdType} from '../../networks/networks.types';
 export class ItemImageComponent implements OnInit, OnDestroy {
     public url: string;
 
+    public url$: Observable<string>;
+
     private readonly _destroyed$: Subject<void> = new Subject();
 
     private readonly _itemId$: ReplaySubject<EntityIdType> = new ReplaySubject(1);
+
+    private readonly _failure$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
     public constructor(private _store: Store,
                        private _change: ChangeDetectorRef) {
@@ -26,6 +35,11 @@ export class ItemImageComponent implements OnInit, OnDestroy {
     @Input()
     public set itemId(itemId: EntityIdType) {
         this._itemId$.next(itemId);
+        this._failure$.next(false);
+    }
+
+    public loadFailure() {
+        this._failure$.next(true);
     }
 
     public ngOnDestroy(): void {
@@ -34,14 +48,12 @@ export class ItemImageComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this._itemId$.pipe(
+        this.url$ = this._itemId$.pipe(
             switchMap(itemId => this._store.select(ItemsState.byId).pipe(map(selector => selector(itemId)))),
-            map((item: ItemEntity) => item && item.image),
+            filter(Boolean),
+            map(({image}: ItemEntity) => image),
             distinctUntilChanged(),
-            takeUntil(this._destroyed$)
-        ).subscribe(url => {
-            this.url = url;
-            this._change.markForCheck();
-        });
+            switchMap(url => this._failure$.pipe(map(failure => failure ? null : url)))
+        );
     }
 }

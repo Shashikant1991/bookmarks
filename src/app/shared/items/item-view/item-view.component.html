@@ -3,9 +3,8 @@
          class="tag-item-view">
         <a class="tag-item-title text-truncate"
            [attr.href]="item.url">
-            <tag-item-image class="mr-2"
-                            [itemId]="itemId"></tag-item-image>
-            {{(showUrl$ | async) ? (item.url | shortenUrl) : (item.title || item.url | shortenUrl)}}
+            <tag-item-image [itemId]="itemId"></tag-item-image>
+            <span class="txt">{{(showUrl$ | async) ? (item.url | shortenUrl) : item.title}}</span>
         </a>
     </div>
 </ng-container>

@@ -11,8 +11,8 @@ favorite URLs into neatly placed cards that are stored in multiple documents.
 
 ## Why was Bookmarks created?
 
-It is one of several planned projects that will demonstrate my passion for front-end
-development with real-world working examples. If you find this project interested, 
+It is a personal project that demonstrates my passion for front-end
+development with a real-world example. If you find this project interesting, 
 then visit [Reactgular](https://reactgular.com) to discover other projects.
 
 ## Source Code

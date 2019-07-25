@@ -138,7 +138,6 @@ export class LayoutTilesComponent implements OnDestroy, OnInit {
             this._columnWidth$.pipe(distinctUntilChanged()),
             this._gutter$.pipe(distinctUntilChanged())
         ]).pipe(
-            // this._log.stream('changes'),
             takeUntil(this._destroyed$)
         ).subscribe(([width, columnWidth, gutter]: [number, number, number]) => {
             this._columns$.next(new LayoutAlgorithm(width, columnWidth, gutter));

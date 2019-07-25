@@ -1,5 +1,6 @@
 <ng-container *ngIf="group$ | async; let group">
-    <div class="d-flex mb-2 align-items-baseline">
+    <div *ngIf="editTitle"
+         class="d-flex mb-2 align-items-baseline">
         <input (ngModelChange)="setTitle(group.id, $event)"
                [ngModel]="group.title"
                autocomplete="off"

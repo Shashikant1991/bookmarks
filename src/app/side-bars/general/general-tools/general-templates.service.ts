@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {Navigate} from '@ngxs/router-plugin';
 import {Store} from '@ngxs/store';
 import {Observable, of} from 'rxjs';
-import {filter, map, startWith} from 'rxjs/operators';
-import {LogService} from '../../../shared/dev-tools/log/log.service';
+import {map} from 'rxjs/operators';
 import {HotKeyDescription, HotKeySectionEnum} from '../../../shared/hot-keys/hot-keys.types';
 import {ReactiveTool, ReactiveToolConfig, ReactiveToolStyle} from '../../../shared/reactive-tools/reactive-tool';
 import {ReactiveToolContext} from '../../../shared/reactive-tools/reactive-tool-context';
+import {routerUrl} from '../../../utils/operators/router-url';
 
 @Injectable()
 export class GeneralTemplatesService implements ReactiveTool, ReactiveToolStyle {
@@ -16,17 +16,13 @@ export class GeneralTemplatesService implements ReactiveTool, ReactiveToolStyle 
     };
 
     public readonly hotKey: HotKeyDescription = {
-        code: 'CTRL+A',
+        code: 'CTRL+T',
         message: 'Opens the document templates',
         section: HotKeySectionEnum.GENERAL
     };
 
-    private readonly _log: LogService;
-
     public constructor(private _store: Store,
-                       private _router: Router,
-                       log: LogService) {
-        this._log = log.withPrefix(GeneralTemplatesService.name);
+                       private _router: Router) {
     }
 
     public color(): Observable<'success' | 'warning' | 'danger' | 'info' | void> {
@@ -34,12 +30,7 @@ export class GeneralTemplatesService implements ReactiveTool, ReactiveToolStyle 
     }
 
     public highlight(): Observable<boolean> {
-        return this._router.events.pipe(
-            filter(event => event instanceof NavigationEnd),
-            map((event: NavigationEnd) => event.url),
-            startWith(this._router.url),
-            map(url => url === '/templates')
-        );
+        return routerUrl(this._router).pipe(map(url => url === '/templates'));
     }
 
     public icon(): Observable<string> {
