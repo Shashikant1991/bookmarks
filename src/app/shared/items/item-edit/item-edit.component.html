@@ -15,19 +15,6 @@
                        [class.opacity-0]="isNew$ | async"
                        [tools]="itemTools"></tag-reactive-more>
 </div>
-<!--
-<div class="item-editor"
-     [tagCardColor]="(editorOpen$ | async) ? (card$ | async)?.color : undefined"
-     [tagScrollTop]="(editorOpen$ | async) ? 0 : 0"
-     [@slide]="(editorOpen$ | async) ? 'open' : 'close'"
-     (@slide.start)="slideEvents$.next($event)"
-     (@slide.done)="slideEvents$.next($event)">
-    <div class="item-editor-bg"></div>
-    <tag-item-form *ngIf="showItemForm$ | async"
-                   [ready]="(slideEvents$ | async)?.phaseName === 'done' && (slideEvents$ | async)?.toState === 'open'"
-                   [itemId]="itemId"></tag-item-form>
-</div>
--->
 <tag-panel-accordion [tagCardColor]="(editorOpen$ | async) ? (card$ | async)?.color : undefined"
                      [tagScrollTop]="(editorOpen$ | async) ? 0 : 0"
                      [open]="editorOpen$ | async"
