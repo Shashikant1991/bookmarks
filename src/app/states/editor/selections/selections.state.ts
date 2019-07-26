@@ -10,6 +10,10 @@ import {GroupsState} from '../../storage/groups/groups.state';
 import {SelectionsAllAction} from './selections-all.action';
 import {SelectionsClearAction} from './selections-clear.action';
 import {SelectionsToggleAction} from './selections-toggle.action';
+import {NavigationStart, Router} from '@angular/router';
+import {OnDestroy} from '@angular/core';
+import {Subject} from 'rxjs';
+import {filter, switchMap, takeUntil} from 'rxjs/operators';
 
 type SelectionsContext = StateContext<SelectionsModel>;
 
@@ -19,13 +23,23 @@ type SelectionsContext = StateContext<SelectionsModel>;
         cards: []
     }
 })
-export class SelectionsState {
+export class SelectionsState implements OnDestroy {
 
     private readonly _log: LogService;
 
+    private readonly _destroyed$: Subject<void> = new Subject();
+
     public constructor(private _store: Store,
+                       router: Router,
                        log: LogService) {
         this._log = log.withPrefix(SelectionsState.name);
+
+        router.events.pipe(
+            filter(event => event instanceof NavigationStart),
+            switchMap(() => _store.selectOnce(SelectionsState.someSelected)),
+            filter(Boolean),
+            takeUntil(this._destroyed$)
+        ).subscribe(() => _store.dispatch(new SelectionsClearAction()));
     }
 
     @Selector([CardsState])
@@ -85,5 +99,10 @@ export class SelectionsState {
             cards.push(action.card_id);
         }
         ctx.patchState({cards});
+    }
+
+    public ngOnDestroy(): void {
+        this._destroyed$.next();
+        this._destroyed$.complete();
     }
 }
