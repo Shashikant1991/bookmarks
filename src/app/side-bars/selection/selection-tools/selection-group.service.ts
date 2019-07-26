@@ -60,10 +60,10 @@ export class SelectionGroupService implements ReactiveTool, ReactiveToolDisabled
     }
 
     public trigger() {
-        forkJoin(
+        forkJoin([
             this._store.selectOnce(SelectionsState.cards),
             this._store.selectOnce(SelectionsState.groups)
-        ).subscribe(([cards, groups]: [CardEntity[], GroupEntity[]]) => {
+        ]).subscribe(([cards, groups]: [CardEntity[], GroupEntity[]]) => {
             const firstGroup = groups.filter(group => Boolean(group.title)).shift();
             const action = new GroupsCreateAction(this._zone);
             action.done$.subscribe(groupId => {
