@@ -17,19 +17,15 @@ export class SelectionMonitorService implements OnDestroy {
     public initialize() {
         this._store.select(SelectionsState.someSelected).pipe(
             distinctUntilChanged(),
-            filter(value => value === true),
+            filter(Boolean),
             takeUntil(this._destroyed$)
-        ).subscribe(() => {
-            this._store.dispatch(new SideBarsTokenAddAction(SELECTION_SIDE_BAR_TOKEN));
-        });
+        ).subscribe(() => this._store.dispatch(new SideBarsTokenAddAction(SELECTION_SIDE_BAR_TOKEN)));
 
         this._store.select(SelectionsState.noneSelected).pipe(
             distinctUntilChanged(),
-            filter(value => value === true),
+            filter(Boolean),
             takeUntil(this._destroyed$)
-        ).subscribe(() => {
-            this._store.dispatch(new SideBarsTokenRemoveAction(SELECTION_SIDE_BAR_TOKEN));
-        });
+        ).subscribe(() => this._store.dispatch(new SideBarsTokenRemoveAction(SELECTION_SIDE_BAR_TOKEN)));
     }
 
     public ngOnDestroy(): void {
