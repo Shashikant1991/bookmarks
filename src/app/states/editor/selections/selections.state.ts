@@ -79,9 +79,15 @@ export class SelectionsState implements OnDestroy {
     }
 
     @Action(SelectionsAllAction)
-    public selectionsAllAction(ctx: SelectionsContext) {
+    public selectionsAllAction(ctx: SelectionsContext, action: SelectionsAllAction) {
         const cardsState: EntityMap<CardEntity> = this._store.selectSnapshot(CardsState);
-        const cards = Object.values(cardsState).filter(card => card.id !== 0).map(card => card.id);
+        const groupsState: EntityMap<GroupEntity> = this._store.selectSnapshot(GroupsState);
+        const getDocumentId = (group_id: number) => groupsState[group_id] && groupsState[group_id].document_id;
+        const cards = Object
+            .values(cardsState)
+            .map((card: CardEntity) => ({card_id: card.id, document_id: getDocumentId(<number>card.group_id)}))
+            .filter(({document_id}) => document_id === action.document_id)
+            .map(({card_id}) => card_id);
         ctx.patchState({cards});
     }
 

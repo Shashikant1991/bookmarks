@@ -10,6 +10,7 @@ import {SelectionsAllAction} from '../../../states/editor/selections/selections-
 import {SelectionsClearAction} from '../../../states/editor/selections/selections-clear.action';
 import {SelectionsState} from '../../../states/editor/selections/selections.state';
 import {EditorState} from '../../../states/editor/editor.state';
+import {EditorGetDocumentAction} from '../../../states/editor/editor-get-document.action';
 
 @Injectable()
 export class SelectionSelectAllService implements OnDestroy, ReactiveTool, ReactiveToolHotKey, ReactiveToolDisabled {
@@ -59,6 +60,6 @@ export class SelectionSelectAllService implements OnDestroy, ReactiveTool, React
     }
 
     public trigger() {
-        this._store.dispatch(new SelectionsAllAction());
+        this._store.dispatch(new EditorGetDocumentAction(new SelectionsAllAction()));
     }
 }
