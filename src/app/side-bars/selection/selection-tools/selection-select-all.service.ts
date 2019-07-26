@@ -1,7 +1,7 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {Actions, ofActionDispatched, Store} from '@ngxs/store';
-import {Observable, of, Subject} from 'rxjs';
-import {filter, takeUntil, withLatestFrom} from 'rxjs/operators';
+import {combineLatest, Observable, of, Subject} from 'rxjs';
+import {filter, map, takeUntil, withLatestFrom} from 'rxjs/operators';
 import {HotKeyDescription, HotKeySectionEnum} from '../../../shared/hot-keys/hot-keys.types';
 import {ReactiveTool, ReactiveToolDisabled, ReactiveToolHotKey} from '../../../shared/reactive-tools/reactive-tool';
 import {CardEditorStateAction} from '../../../states/editor/card-editor/card-editor-state.action';
@@ -9,6 +9,7 @@ import {CardEditorState} from '../../../states/editor/card-editor/card-editor.st
 import {SelectionsAllAction} from '../../../states/editor/selections/selections-all.action';
 import {SelectionsClearAction} from '../../../states/editor/selections/selections-clear.action';
 import {SelectionsState} from '../../../states/editor/selections/selections.state';
+import {EditorState} from '../../../states/editor/editor.state';
 
 @Injectable()
 export class SelectionSelectAllService implements OnDestroy, ReactiveTool, ReactiveToolHotKey, ReactiveToolDisabled {
@@ -32,7 +33,12 @@ export class SelectionSelectAllService implements OnDestroy, ReactiveTool, React
     }
 
     public disabled(): Observable<boolean> {
-        return this._store.select(CardEditorState.isCardEditorOpen);
+        return combineLatest([
+            this._store.select(CardEditorState.isCardEditorOpen),
+            this._store.select(EditorState.documentId)
+        ]).pipe(
+            map(([isCardEditorOpen, documentId]) => isCardEditorOpen || !documentId)
+        );
     }
 
     public icon(): Observable<string> {
