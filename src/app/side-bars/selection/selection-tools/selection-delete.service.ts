@@ -15,6 +15,7 @@ import {SelectionsState} from '../../../states/editor/selections/selections.stat
 export class SelectionDeleteService implements ReactiveTool, ReactiveToolHotKey, ReactiveToolDisabled {
     public readonly hotKey: HotKeyDescription = {
         code: 'DEL',
+        humanCode: 'Del, Backspace',
         message: 'Deletes selected cards',
         section: HotKeySectionEnum.SELECTION
     };
