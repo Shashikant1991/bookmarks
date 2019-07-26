@@ -15,6 +15,7 @@ export class TemplatesService {
     private static BASE_URL = '/assets/templates';
 
     private static readonly REMAP_TITLE = {
+        'ad-related': 'Advertising',
         'ai': 'Artificial Intelligence',
         'seo': 'SEO',
         'vr': 'Virtual Reality',
