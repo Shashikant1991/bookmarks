@@ -13,7 +13,7 @@ import {SideBarsHeaderCloseAction} from '../../../states/side-bars/side-bars-hea
 export class SelectionDeselectService implements ReactiveTool, ReactiveToolDisabled, ReactiveToolHotKey, OnDestroy {
     public readonly hotKey: HotKeyDescription = {
         code: 'CTRL+ALT+A',
-        humanCode: 'ESC, CTRL+ALT+A',
+        humanCode: 'ESC',
         message: 'Deselects all cards',
         section: HotKeySectionEnum.SELECTION
     };

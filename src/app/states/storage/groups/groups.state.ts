@@ -138,9 +138,11 @@ export class GroupsState {
 
     @Action(GroupsPublishAction)
     public groupsPublishAction(ctx: GroupsContext, action: GroupsPublishAction) {
-        const groupIds = Object.keys(ctx.getState());
-        if (groupIds.length) {
-            const group = this._tracker.get(ctx, groupIds[0]);
+        const state = ctx.getState();
+        const groups: GroupEntity[] = Object.values(ctx.getState())
+            .filter((group: GroupEntity) => group.document_id === action.document_id);
+        if (groups.length) {
+            const group = this._tracker.get(ctx, groups[0].id);
             return ctx.dispatch(new CardEditorPublishAction(action.document_id, group.id));
         }
 

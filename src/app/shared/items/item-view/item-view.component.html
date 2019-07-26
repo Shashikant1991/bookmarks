@@ -3,7 +3,7 @@
          class="tag-item-view">
         <a class="tag-item-title text-truncate"
            [attr.href]="item.url">
-            <tag-item-image [itemId]="itemId"></tag-item-image>
+            <tag-item-image [itemId]="item.id"></tag-item-image>
             <span class="txt">{{(showUrl$ | async) ? (item.url | shortenUrl) : item.title}}</span>
         </a>
     </div>

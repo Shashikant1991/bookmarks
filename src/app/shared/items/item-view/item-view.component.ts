@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngxs/store';
-import {combineLatest, Observable, Subject} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {combineLatest, Observable, ReplaySubject, Subject} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
 import {EditorState} from '../../../states/editor/editor.state';
 import {ItemsState} from '../../../states/storage/items/items.state';
 import {KeyboardService} from '../../dev-tools/keyboard/keyboard.service';
@@ -25,6 +25,8 @@ export class ItemViewComponent implements OnInit, OnDestroy {
 
     private readonly _log: LogService;
 
+    private readonly _itemId$: ReplaySubject<EntityIdType> = new ReplaySubject(1);
+
     public constructor(private _store: Store,
                        private _keyboard: KeyboardService,
                        private _el: ElementRef<HTMLElement>,
@@ -32,16 +34,9 @@ export class ItemViewComponent implements OnInit, OnDestroy {
         this._log = log.withPrefix(ItemViewComponent.name);
     }
 
-    private _itemId: EntityIdType;
-
-    public get itemId(): EntityIdType {
-        return this._itemId;
-    }
-
     @Input()
     public set itemId(value: EntityIdType) {
-        this._itemId = value;
-        this.item$ = this._store.select(ItemsState.byId).pipe(map(selector => selector(value)));
+        this._itemId$.next(value);
     }
 
     public hasChildElement(parent: Element, child: Element): boolean {
@@ -61,6 +56,10 @@ export class ItemViewComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        this.item$ = this._itemId$.pipe(
+            switchMap(itemId => this._store.select(ItemsState.byId).pipe(map(selector => selector(itemId))))
+        );
+
         this.showUrl$ = combineLatest([
             this._store.select(EditorState.showUrls),
             this.item$.pipe(map(item => !item.title))

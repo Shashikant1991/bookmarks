@@ -5,6 +5,10 @@ import {OutletEditorComponent} from './outlet-editor/outlet-editor.component';
 
 const routes: Routes = [
     {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: '/'
+    }, {
         path: ':documentId',
         component: OutletEditorComponent,
         canDeactivate: [

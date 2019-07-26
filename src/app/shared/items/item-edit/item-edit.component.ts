@@ -2,7 +2,7 @@ import {animate, AnimationEvent, state, style, transition, trigger} from '@angul
 import {ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnDestroy, OnInit, Optional} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {BehaviorSubject, combineLatest, merge, Observable, ReplaySubject, Subject} from 'rxjs';
-import {distinctUntilChanged, filter, map, takeUntil, withLatestFrom} from 'rxjs/operators';
+import {distinctUntilChanged, filter, map, mapTo, takeUntil, withLatestFrom} from 'rxjs/operators';
 import {CardEditorState} from '../../../states/editor/card-editor/card-editor.state';
 import {DragState} from '../../../states/editor/drag/drag.state';
 import {ItemsState} from '../../../states/storage/items/items.state';
@@ -85,6 +85,10 @@ export class ItemEditComponent implements OnDestroy, OnInit {
 
     public slideEvents$: ReplaySubject<AnimationEvent> = new ReplaySubject(1);
 
+    public item$: Observable<ItemEntity>;
+
+    public itemId$: Observable<EntityIdType>;
+
     private readonly _destroyed$: Subject<void> = new Subject();
 
     private readonly _log: LogService;
@@ -99,40 +103,13 @@ export class ItemEditComponent implements OnDestroy, OnInit {
                        log: LogService) {
         this._log = log.withPrefix(ItemEditComponent.name);
         this.isHovering = !this._cardDragItems;
-    }
-
-    private _itemId: EntityIdType;
-
-    public get itemId(): EntityIdType {
-        return this._itemId;
+        this.itemId$ = this._context.getItemId();
+        this.item$ = this._context.getItem();
     }
 
     @Input()
     public set itemId(itemId: EntityIdType) {
-        this._itemId = itemId;
         this._context.setItemId(itemId);
-        this.editorOpen$ = this._store.select(CardEditorState.itemId).pipe(map(id => id === itemId), distinctUntilChanged());
-        this.showControls$ = combineLatest([this.mouseHover$, this.menuOpen$, this.editorOpen$])
-            .pipe(map(([hover, menu, open]) => (menu || hover || open) && itemId !== 0));
-        this.showItemForm$ = merge(
-            this.editorOpen$.pipe(filter(Boolean)),
-            this.slideEvents$.pipe(
-                filter(event => event.phaseName === 'done' && event.toState === 'close'),
-                map(() => false)
-            )
-        );
-        this.isNew$ = this._store.select(ItemsState.byId).pipe(
-            map(selector => selector(itemId)),
-            filter(Boolean),
-            map((item: ItemEntity) => Boolean(item._new)),
-            distinctUntilChanged()
-        );
-        this.isVisible$ = this._store.select(ItemsState.byId).pipe(
-            map(selector => selector(itemId)),
-            filter(Boolean),
-            map((item: ItemEntity) => item._visible !== false),
-            distinctUntilChanged()
-        );
     }
 
     public getSize(): Point {
@@ -149,6 +126,44 @@ export class ItemEditComponent implements OnDestroy, OnInit {
         if (this._cardDragItems) {
             this._dragBehaviors();
         }
+
+        this.editorOpen$ = combineLatest([
+            this._store.select(CardEditorState.itemId),
+            this.itemId$
+        ]).pipe(
+            map(([a, b]) => a === b),
+            distinctUntilChanged()
+        );
+
+        this.showControls$ = combineLatest([
+            this.mouseHover$,
+            this.menuOpen$,
+            this.editorOpen$,
+            this.itemId$
+        ]).pipe(
+            map(([hover, menu, open, itemId]) => (menu || hover || open) && itemId !== 0),
+            distinctUntilChanged()
+        );
+
+        this.showItemForm$ = merge(
+            this.editorOpen$.pipe(filter(Boolean)),
+            this.slideEvents$.pipe(
+                filter(event => event.phaseName === 'done' && event.toState === 'close'),
+                mapTo(false)
+            )
+        ).pipe(
+            distinctUntilChanged()
+        );
+
+        this.isNew$ = this.item$.pipe(
+            map(item => Boolean(item._new)),
+            distinctUntilChanged()
+        );
+
+        this.isVisible$ = this.item$.pipe(
+            map(item => item._visible !== false),
+            distinctUntilChanged()
+        );
     }
 
     private _dragBehaviors() {

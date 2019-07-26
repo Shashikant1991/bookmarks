@@ -10,7 +10,7 @@
                        placeholder="Title"
                        (blur)="updateItemAndValidate()"
                        (keypress)="keyPressTitle($event)">
-                <mat-hint *ngIf="itemMetaTitle$ | async">{{itemMetaTitle$ | async}}</mat-hint>
+                <mat-hint *ngIf="itemMetaTitle$ | async as itemMetaTitle">{{itemMetaTitle}}</mat-hint>
             </mat-form-field>
             <tag-reactive-tool class="ml-2"
                                [title]="false"

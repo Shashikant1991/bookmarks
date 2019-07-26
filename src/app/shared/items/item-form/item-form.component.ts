@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, ElementRef, Inject, Input, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Store} from '@ngxs/store';
-import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
-import {distinctUntilChanged, filter, first, map, takeUntil} from 'rxjs/operators';
+import {BehaviorSubject, forkJoin, Observable, ReplaySubject, Subject} from 'rxjs';
+import {distinctUntilChanged, filter, first, map, switchMap, takeUntil} from 'rxjs/operators';
 import {CardEditorState} from '../../../states/editor/card-editor/card-editor.state';
 import {EditorGetDocumentAction} from '../../../states/editor/editor-get-document.action';
 import {GroupsPublishAction} from '../../../states/storage/groups/groups-publish.action';
@@ -19,6 +19,7 @@ import {EntityIdType} from '../../networks/networks.types';
 import {TagValidators} from '../../validators/validate-url';
 import {ItemMetaToolService} from '../item-tools/item-meta-tool.service';
 import {MetaToolData} from '../meta-tool-types';
+import {delayTime} from '../../../utils/operators/delay-time';
 
 @Component({
     selector: 'tag-item-form',
@@ -33,10 +34,10 @@ export class ItemFormComponent implements OnInit, OnDestroy {
 
     public group: FormGroup;
 
-    @ViewChild('inputTitle', { read: ElementRef, static: true })
+    @ViewChild('inputTitle', {read: ElementRef, static: true})
     public inputTitle: ElementRef<HTMLInputElement>;
 
-    @ViewChild('inputUrl', { read: ElementRef, static: true })
+    @ViewChild('inputUrl', {read: ElementRef, static: true})
     public inputUrl: ElementRef<HTMLInputElement>;
 
     public itemMetaTitle$: Observable<string>;
@@ -47,7 +48,9 @@ export class ItemFormComponent implements OnInit, OnDestroy {
 
     private readonly _log: LogService;
 
-    private _ready$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+    private readonly _ready$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+    private readonly _itemId$: ReplaySubject<EntityIdType> = new ReplaySubject(1);
 
     public constructor(private _meta: MetaService,
                        private _store: Store,
@@ -63,21 +66,9 @@ export class ItemFormComponent implements OnInit, OnDestroy {
         this.itemMetaTitle$ = itemMetaTool.title();
     }
 
-    private _itemId: EntityIdType;
-
-    public get itemId(): EntityIdType {
-        return this._itemId;
-    }
-
     @Input()
     public set itemId(itemId: EntityIdType) {
-        this._itemId = itemId;
-        // @todo This should be done via OnInit()
-        this._item$ = this._store.select(ItemsState.byId).pipe(map(selector => selector(itemId)));
-        this._item$.pipe(
-            first(),
-            takeUntil(this._destroyed$)
-        ).subscribe(item => this.group.setValue({title: item.title, url: item.url}));
+        this._itemId$.next(itemId);
     }
 
     @Input()
@@ -87,7 +78,7 @@ export class ItemFormComponent implements OnInit, OnDestroy {
 
     public keyPressTitle(event: KeyboardEvent) {
         if (event.key === 'Enter') {
-            this.updateItemAndValidate().then(success => success && this._closeEditor());
+            this.updateItemAndValidate().then(success => success && this._editorModal.close());
         }
     }
 
@@ -101,20 +92,21 @@ export class ItemFormComponent implements OnInit, OnDestroy {
                 return;
             }
 
-            this._item$.pipe(first())
-                .subscribe((item: ItemEntity) => {
-                    const actions: any[] = [new EditorGetDocumentAction(new GroupsPublishAction())];
-                    if (item._new) {
-                        actions.push(new ItemsCreateAction(this._zone, item.card_id));
+            this._item$.pipe(
+                first()
+            ).subscribe((item: ItemEntity) => {
+                const actions: any[] = [new EditorGetDocumentAction(new GroupsPublishAction())];
+                if (item._new) {
+                    actions.push(new ItemsCreateAction(this._zone, item.card_id));
+                }
+                this._store.dispatch(actions).subscribe(() => {
+                    if (this.controlTitle.value) {
+                        this._editorModal.close();
+                    } else {
+                        this.itemMetaTool.fetchMeta();
                     }
-                    this._store.dispatch(actions).subscribe(() => {
-                        if (this.controlTitle.value) {
-                            this._closeEditor();
-                        } else {
-                            this.itemMetaTool.fetchMeta();
-                        }
-                    });
                 });
+            });
         });
     }
 
@@ -140,6 +132,7 @@ export class ItemFormComponent implements OnInit, OnDestroy {
         });
 
         this.itemMetaTool.getData().pipe(
+            delayTime(0),
             takeUntil(this._destroyed$)
         ).subscribe((result: MetaToolData) => {
             if (result.success) {
@@ -149,12 +142,12 @@ export class ItemFormComponent implements OnInit, OnDestroy {
                 if (result.image) {
                     this._setImage(result.image);
                 }
-                this.focusTitle();
+                this.inputTitle.nativeElement.focus();
             } else {
                 if (this.controlTitle.value) {
-                    this.focusTitle();
+                    this.inputTitle.nativeElement.focus();
                 } else {
-                    this.focusUrl();
+                    this.inputUrl.nativeElement.focus();
                 }
             }
         });
@@ -162,22 +155,27 @@ export class ItemFormComponent implements OnInit, OnDestroy {
         this.itemMetaTool.disabled().pipe(
             takeUntil(this._destroyed$)
         ).subscribe(disabled => disabled ? this.group.disable() : this.group.enable());
+
+        this._item$ = this._itemId$.pipe(
+            switchMap(itemId => this._store.select(ItemsState.byId).pipe(map(selector => selector(itemId))))
+        );
+
+        this._item$.pipe(
+            first(),
+            takeUntil(this._destroyed$)
+        ).subscribe(({title, url}) => this.group.setValue({title, url}));
     }
 
     public setFocus() {
-        combineLatest([
-            this._store.select(CardEditorState.itemId),
-            this._store.select(CardEditorState.itemFocusTitle)
-        ]).pipe(
-            first(),
-            filter(([itemId]) => itemId === this._itemId)
-        ).subscribe(([itemId, focus]) => {
-            if (focus) {
-                this.focusTitle();
-            } else {
-                this.focusUrl();
-            }
-        });
+        forkJoin({
+            editorItemId: this._store.select(CardEditorState.itemId).pipe(first()),
+            itemId: this._itemId$.pipe(first())
+        }).pipe(
+            filter(({editorItemId, itemId}) => editorItemId === itemId),
+            switchMap(() => this._store.select(CardEditorState.itemFocusTitle)),
+            delayTime(0),
+            takeUntil(this._destroyed$)
+        ).subscribe(focus => focus ? this.inputTitle.nativeElement.focus() : this.inputUrl.nativeElement.focus());
     }
 
     public updateItemAndValidate(): Promise<boolean> {
@@ -198,10 +196,6 @@ export class ItemFormComponent implements OnInit, OnDestroy {
         });
     }
 
-    private _closeEditor() {
-        this._editorModal.close();
-    }
-
     private _rewriteUrl() {
         let url = this.controlUrl.value;
         if (url !== null) {
@@ -213,28 +207,17 @@ export class ItemFormComponent implements OnInit, OnDestroy {
     }
 
     private _setImage(image: string) {
-        this._store.dispatch(new ItemsPatchAction(this._itemId, {image}));
+        this._itemId$.pipe(
+            first(),
+            switchMap(itemId => this._store.dispatch(new ItemsPatchAction(itemId, {image})))
+        ).subscribe();
     }
 
     private _setTitle(title: string) {
         this.controlTitle.setValue(title);
-        this._store.dispatch(new ItemsPatchAction(this._itemId, {title}));
-    }
-
-    private _setUrl(url: string) {
-        this.controlUrl.setValue(url);
-        this._store.dispatch(new ItemsPatchAction(this._itemId, {url}));
-    }
-
-    private focusTitle() {
-        this._timeOut.run()
-            .pipe(takeUntil(this._destroyed$))
-            .subscribe(() => this.inputTitle.nativeElement.focus());
-    }
-
-    private focusUrl() {
-        this._timeOut.run()
-            .pipe(takeUntil(this._destroyed$))
-            .subscribe(() => this.inputUrl.nativeElement.focus());
+        this._itemId$.pipe(
+            first(),
+            switchMap(itemId => this._store.dispatch(new ItemsPatchAction(itemId, {title})))
+        ).subscribe();
     }
 }
