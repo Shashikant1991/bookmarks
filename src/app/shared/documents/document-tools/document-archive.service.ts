@@ -6,6 +6,8 @@ import {DocumentsPatchAction} from '../../../states/storage/documents/documents-
 import {ReactiveTool, ReactiveToolConfig} from '../../reactive-tools/reactive-tool';
 import {ReactiveToolContext} from '../../reactive-tools/reactive-tool-context';
 import {DocumentContext} from './document-context.service';
+import {SideBarsTokenToggleAction} from '../../../states/side-bars/side-bars-token-toggle.action';
+import {ARCHIVED_SIDE_BAR_TOKEN} from '../../../side-bars/archived/archived-side-bar.token';
 
 @Injectable()
 export class DocumentArchiveService implements ReactiveTool {
@@ -34,7 +36,10 @@ export class DocumentArchiveService implements ReactiveTool {
 
     public trigger(context?: ReactiveToolContext) {
         this._context.getDocumentOnce().subscribe(({id, archived}) => {
-            this._store.dispatch(new DocumentsPatchAction(id, {archived: !archived}));
+            this._store.dispatch([
+                new DocumentsPatchAction(id, {archived: !archived}),
+                new SideBarsTokenToggleAction(ARCHIVED_SIDE_BAR_TOKEN)
+            ]);
         });
     }
 }

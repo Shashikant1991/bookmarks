@@ -2,13 +2,15 @@ import {Injectable} from '@angular/core';
 import {Navigate} from '@ngxs/router-plugin';
 import {Store} from '@ngxs/store';
 import {Observable, of} from 'rxjs';
-import {filter} from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
 import {DocumentsDeleteAction} from '../../../states/storage/documents/documents-delete.action';
 import {DialogsService} from '../../dialogs/dialogs/dialogs.service';
 import {DocumentEntity} from '../../networks/entities/document.entity';
 import {ReactiveTool, ReactiveToolConfig} from '../../reactive-tools/reactive-tool';
 import {ReactiveToolContext} from '../../reactive-tools/reactive-tool-context';
 import {DocumentContext} from './document-context.service';
+import {StorageState} from '../../../states/storage/storage.state';
+import {AppSequenceAction} from '../../../states/app/app-sequence.action';
 
 @Injectable()
 export class DocumentDeleteService implements ReactiveTool {
@@ -48,9 +50,19 @@ export class DocumentDeleteService implements ReactiveTool {
                 title: 'Delete',
                 color: 'warn'
             }
-        }).pipe(filter(Boolean)).subscribe(() => this._store.dispatch([
-            new DocumentsDeleteAction(id),
-            new Navigate(['/bookmarks'])
-        ]));
+        }).pipe(
+            filter(Boolean)
+        ).subscribe(() => {
+            this._store.selectOnce(StorageState.documentIds).pipe(
+                map(documentIds => documentIds.filter(documentId => documentId !== id)),
+                map(documentIds => documentIds.length ? documentIds[0] : undefined),
+            ).subscribe(documentId => {
+                const navigateAction = documentId ? new Navigate([`/bookmarks/${documentId}`]) : new Navigate(['/']);
+                this._store.dispatch(new AppSequenceAction([
+                    navigateAction,
+                    new DocumentsDeleteAction(id)
+                ]));
+            });
+        });
     }
 }

@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute} from '@angular/router';
-import {Navigate} from '@ngxs/router-plugin';
 import {Select, Store} from '@ngxs/store';
 import {Observable, Subject} from 'rxjs';
 import {filter, map, switchMap, takeUntil} from 'rxjs/operators';
@@ -41,21 +40,12 @@ export class OutletEditorComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-
         this._activatedRoute.params.pipe(
-            map(params => parseInt(params['documentId'] || '1', 10)),
+            map(params => parseInt(params['documentId'] || '0', 10)),
             switchMap(document_id => this._store.select(DocumentsState.byId).pipe(map(selector => selector(document_id)))),
+            filter(Boolean),
             takeUntil(this._destroyed$)
-        ).subscribe((document: DocumentEntity) => {
-            if (document) {
-                this._store.dispatch(new EditorSetDocumentAction(document.id));
-            } else {
-                this._wnd.setTimeout(() => {
-                    this._snackBar.open(`Document does not exist.`, 'Dismiss', {politeness: 'assertive'});
-                    this._store.dispatch(new Navigate(['/']));
-                });
-            }
-        });
+        ).subscribe((document: DocumentEntity) => this._store.dispatch(new EditorSetDocumentAction(document.id)));
 
         this._store.select(EditorState.document).pipe(
             filter(Boolean),

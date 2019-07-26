@@ -5,9 +5,7 @@ import {MetaEntity} from '../../networks/entities/meta.entity';
 import {ApiResponse} from '../api.types';
 import {RestService} from '../rest/rest.service';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class MetaService {
 
     private readonly _log: LogService;
