@@ -89,7 +89,10 @@ export class HotKeysService implements OnDestroy {
         return fromEvent<KeyboardEvent>(this._doc, 'keydown').pipe(
             filter(event => Boolean(event.key)
                 && event.type === 'keydown'
-                && event.key.toLowerCase() === hotKey.key
+                // @note This is a temporary fix until the @reactgular/reactions project is finished and used in this project.
+                && (hotKey.key === 'delete'
+                    ? (event.key === 'Delete' || event.key === 'Backspace')
+                    : (event.key.toLowerCase() === hotKey.key))
                 && event.ctrlKey === hotKey.ctrlKey
                 && event.altKey === hotKey.altKey
                 && event.shiftKey === hotKey.shiftKey
